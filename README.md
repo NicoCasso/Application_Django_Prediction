@@ -1,0 +1,1 @@
+Application de prédiction de prime d'assurance utilisant un modèle de Machine Learning.
