@@ -1,1 +1,133 @@
-{% extends "base.html" %}
+{% comment %} {% extends "base.html" %} {% endcomment %}
+
+{% comment %} {% block title %}Prediction{% endblock %} {% endcomment %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        main {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Bienvenue sur notre site Assur’aimant !</h1>
+    </header>
+    <main>
+        <p>Accueil.</p>
+        <p>Explorez les fonctionnalités de notre site en naviguant à travers les différentes sections.</p>
+    </main>
+    <footer>
+        <p>&copy; 2025 Dev IA.</p>
+    </footer>
+</body>
+</html> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page d'accueil</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+        .container h1 {
+            color: #007BFF;
+            margin-bottom: 20px;
+        }
+        .box {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        .box h2 {
+            margin: 0 0 10px;
+            color: #333;
+        }
+        .box a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: white;
+            background-color: #007BFF;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .box a:hover {
+            background-color: #0056b3;
+        }
+        footer {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Assur'Aimant</h1>
+        <div class="box">
+            <h2>Se connecter</h2>
+            <a href="login/">Accéder à votre compte</a>
+        </div>
+        <div class="box">
+            <h2>S'inscrire</h2>
+            <a href="register/">Créer un compte</a>
+        </div>
+        </footer>
+    </div>
+</body>
+</html>
+{% endblock %}
