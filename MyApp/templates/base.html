@@ -4,19 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}MyApp{% endblock %}</title>
+    <title>{% block title %}Assur'Aimant{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
     <header>
-        <h1>MyApp</h1>
-        <nav>
-            <ul>
-                <li><a href="{% url 'app:home' %}">Home</a></li>
-                <li><a href="{% url 'app:login' %}">Login</a></li>
-                <li><a href="{% url 'app:register' %}">Register</a></li>
-            </ul>
-        </nav>
+        <h1>Assur'Aimant</h1>
     </header>
     <main>
         {% block content %}
@@ -24,7 +17,7 @@
         {% endblock %}
     </main>
     <footer>
-        <p>&copy; 2025 MyApp</p>
+        <p>&copy; 2025 Assur'Aimant</p>
     </footer>
 </body>
 </html>

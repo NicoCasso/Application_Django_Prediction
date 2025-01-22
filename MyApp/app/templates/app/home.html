@@ -1,8 +1,31 @@
 {% extends "base.html" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Accueil - Assur'Aimant{% endblock %}
 
 {% block content %}
-    <h2>Welcome to MyApp!</h2>
-    <p>This is the home page. Feel free to explore the site!</p>
+<div class="main-container">
+    <!-- Sidebar avec formulaire de recherche -->
+    <div class="sidebar">
+        <div class="container">
+            <div class="box">
+                <h2>Se connecter</h2>
+                <a href="login">Accéder à votre compte</a>
+            </div>
+            <div class="box">
+                <h2>S'inscrire</h2>
+                <a href="register">Créer un compte</a>
+            </div>
+            {% comment %} <a href="{% url 'app:estimate' %}" class="cta-button">Commencer votre estimation</a> {% endcomment %}
+        </div>
+    </div>
+    <!-- Contenu principal -->
+    <div class="content">
+        <h1 class="title">Bienvenue sur l'Application Assur'Aimant!</h1>
+        <p class="description">
+            Cette application innovante vous permet d’obtenir une estimation fiable et personnalisée de votre assurance santé grâce à l’utilisation d’un modèle de machine learning performant. 
+            Ce modèle analyse de manière intelligente les données que vous fournissez, en tenant compte de vos besoins spécifiques. 
+            L’objectif est de vous offrir une estimation rapide, précise et adaptée à votre situation.  
+        </p>
+    </div>
+</div>
 {% endblock %}
