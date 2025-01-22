@@ -18,7 +18,8 @@
             </div>
             {% endif %}
 
-            {% comment %} <form method="post" action="{% url 'connexion' %}"> {% endcomment %}
+            <!-- Décommentez cette section -->
+            <form method="post">
                 {% csrf_token %}
                 <label for="username">Nom d'utilisateur</label>
                 <input type="text" name="username" required>
@@ -26,7 +27,7 @@
                 <input type="password" name="password" required>
                 <button type="submit">Se connecter</button>
             </form>
-            {% comment %} <p class="link">Pas encore inscrit ? <a href="{% url 'inscription' %}">S'inscrire</a></p> {% endcomment %}
+            {% comment %} <p class="link">Pas encore inscrit ? <a href="{% url 'register' %}">S'inscrire</a></p> <!-- Lien vers la page d'inscription --> {% endcomment %}
         </div>
     </div>
     
@@ -49,7 +50,7 @@
         body {
             min-height: 100vh;
             width: 100%;
-            background: #009579;
+            background: #59754e;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -68,7 +69,7 @@
 
         label {
             padding: 10px 0;
-            color: #009579;
+            color: #59754e;
             cursor: pointer;
         }
 
@@ -85,7 +86,7 @@
 
         a {
             font-size: 16px;
-            color: #009579;
+            color: #59754e;
             text-decoration: none;
         }
 
@@ -95,7 +96,7 @@
 
         button {
             color: #fff;
-            background: #009579;
+            background: #59754e;
             width: 100%;
             padding: 10px;
             font-size: 17px;
@@ -106,7 +107,7 @@
         }
 
         button:hover {
-            background: #006653;
+            background: #59754e;
         }
 
         .link {

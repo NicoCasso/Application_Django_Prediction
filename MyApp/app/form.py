@@ -1,5 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
+from .models import InsuranceInfos
+from django.shortcuts import redirect, render
 
 class CustomUserCreationForm(UserCreationForm):
     password1 = forms.CharField(
@@ -15,3 +17,15 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         fields = UserCreationForm.Meta.fields + ("password1", "password2")
+
+
+
+
+
+
+
+#region ___Khadija________________
+class InsuranceInfosForm(forms.ModelForm):
+    class Meta:
+        model = InsuranceInfos
+        fields = "__all__"

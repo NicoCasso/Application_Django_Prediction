@@ -1,7 +1,11 @@
 {% extends "base.html" %}
+
 {% load static %}
 
+{% block title %}Mes informations - Assur'Aimant{% endblock %}
+
 {% block content %}
+
 <!-- Sidebar Section -->
 <aside class="sidebar">
     <div class="sidebar-content">
@@ -31,5 +35,22 @@
             </a>
         </div>
 </aside>
-
+<div class="main-container">
+    <!-- Contenu principal -->
+     <div class="content">
+        <div>
+            <h1>Modifier mes informations personnelles</h1>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="button-container">
+                <button type="submit" class="btn">Enregistrer</button>
+            </div>
+        </form>
+        <a href="{% url 'app:user_infos' %}">Retour à mes informations personnelles</a>
+    </div>
+</div>
+        
 {% endblock %}
+        

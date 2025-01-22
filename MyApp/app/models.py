@@ -13,7 +13,8 @@ class InsuranceInfos(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return self.user_id.username
+        return f"{self.user.username}" if self.user else "Unknown User"
+
     
 class Predictions(models.Model):
     charges = models.IntegerField()
@@ -22,3 +23,4 @@ class Predictions(models.Model):
 
     def __str__(self):
         return self.user_id.username
+    

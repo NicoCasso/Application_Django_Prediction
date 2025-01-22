@@ -1,58 +1,113 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% load static %}
 
-{% block title %}Accueil - Assur'Aimant{% endblock %}
+{% block title %}Mes informations - Assur'Aimant{% endblock %}
 
 {% block content %}
+
 <!-- Sidebar Section -->
 <aside class="sidebar">
     <div class="sidebar-content">
         <div class="menu-item">
             <a href="{% url 'app:home' %}">
                 <img src="{% static 'icon/home.png' %}" alt="Icône Accueil" height="20">
-                <span class="menu-text">Accueil</span>
+                <span class="menu-text">Déconnexion</span>
             </a>
         </div>            
+        <div class="menu-item">
+            <a href="{% url 'app:profil' %}">
+                <img src="{% static 'icon/user.png' %}" alt="Icône Accueil" height="20">
+                <span class="menu-text">Profil</span>
+            </a>
+        </div> 
         <!-- Menu Items -->
-        
         <div class="menu-item">
             <a href="{% url 'app:user_infos' %}">
-                <img src="{% static 'icon/user.png' %}" alt="Icône Mon profil" height="20">
+                <img src="{% static 'icon/contract.png' %}" alt="Icône Mon profil" height="20">
                 <span class="menu-text">Mes informations</span>
             </a>
         </div>
-        
         <div class="menu-item">
             <a href="{% url 'app:prediction' %}">
                 <img src="{% static 'icon/paper-plane.png' %}" alt="Icône Mes démarches" height="20">
                 <span class="menu-text">Mes démarches</span>
             </a>
         </div>
-        
-        <div class="menu-item">
-            <img src="{% static 'icon/audit.png' %}" alt="Icône Ma couverture" height="20">
-            <span class="menu-text">Ma couverture</span>
-        </div>
-        
-        <div class="menu-item">
-            <img src="{% static 'icon/star.png' %}" alt="Icône Mes avantages santé" height="20">
-            <span class="menu-text">Mes avantages santé</span>
-        </div>
-        
-        <div class="menu-item">
-            <span class="menu-text">Une question?</span>
-        </div>
-    </div>
 </aside>
 
 <div class="main-container">
     <!-- Contenu principal -->
     <div class="content">
-        <h1 class="title"></h1>
-        <p class="description">
-           
-        </p>
+        {% comment %} <h1 class="title">Mes informations</h1> {% endcomment %}
+        <!-- Informations personnelles -->
+        <h3>Informations personnelles</h3>
+        <table>
+            <tr>
+                <th>Nom</th>
+                <td> </td>
+            </tr>
+            <tr>
+                <th>Prénom</th>
+                <td> </td>
+            </tr>
+            
+            <tr>
+                <th>Email</th>
+                <td> </td>
+            </tr>
+        </table>
+        
+        <!-- Informations pour les charges -->
+        <h3>Informations complémentaires</h3>
+        <table>
+            <tr>
+                <th>Numéro client</th>
+                <td> </td>
+            </tr>
+            <tr>
+                <th>Genre</th>
+                <td> </td>
+            </tr>
+            <tr>
+                <th>Age</th>
+                <td> </td>
+            </tr>
+            <tr>
+                <th>Nombre d'enfants</th>
+                <td> </td>
+            </tr>
+            <tr>
+                <th>Région</th>
+                <td> </td>
+            </tr>
+            <tr>
+                <th>Fumeur</th>
+                <td> </td>
+            </tr>
+            <tr>
+                <th>Taille</th>
+                <td> </td>
+            </tr>
+            <tr>
+                <th>Poids</th>
+                <td> </td>
+            </tr>
+        </table>
+
+        {% comment %} <!-- Options -->
+        <h3>Options</h3>
+        <table>
+            <tr>
+                <th>Ajouter des informations</th>
+                <td><a href="{% url 'app:create_insurance_infos' %}">Ajouter</a></td>
+            <tr>
+                <th>Modifier mes informations personnelles</th>
+                <td><a href="{% url 'app:update_infos' %}">Modifier</a></td>
+            </tr>
+
+        </table>
+         {% endcomment %}
     </div>
 </div>
 {% endblock %}
