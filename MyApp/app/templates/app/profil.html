@@ -1,1 +1,58 @@
 {% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Accueil - Assur'Aimant{% endblock %}
+
+{% block content %}
+<!-- Sidebar Section -->
+<aside class="sidebar">
+    <div class="sidebar-content">
+        <div class="menu-item">
+            <a href="{% url 'app:home' %}">
+                <img src="{% static 'icon/home.png' %}" alt="Icône Accueil" height="20">
+                <span class="menu-text">Accueil</span>
+            </a>
+        </div>            
+        <!-- Menu Items -->
+        
+        <div class="menu-item">
+            <a href="{% url 'app:user_infos' %}">
+                <img src="{% static 'icon/user.png' %}" alt="Icône Mon profil" height="20">
+                <span class="menu-text">Mes informations</span>
+            </a>
+        </div>
+        
+        <div class="menu-item">
+            <a href="{% url 'app:prediction' %}">
+                <img src="{% static 'icon/paper-plane.png' %}" alt="Icône Mes démarches" height="20">
+                <span class="menu-text">Mes démarches</span>
+            </a>
+        </div>
+        
+        <div class="menu-item">
+            <img src="{% static 'icon/audit.png' %}" alt="Icône Ma couverture" height="20">
+            <span class="menu-text">Ma couverture</span>
+        </div>
+        
+        <div class="menu-item">
+            <img src="{% static 'icon/star.png' %}" alt="Icône Mes avantages santé" height="20">
+            <span class="menu-text">Mes avantages santé</span>
+        </div>
+        
+        <div class="menu-item">
+            <span class="menu-text">Une question?</span>
+        </div>
+    </div>
+</aside>
+
+<div class="main-container">
+    <!-- Contenu principal -->
+    <div class="content">
+        <h1 class="title"></h1>
+        <p class="description">
+           
+        </p>
+    </div>
+</div>
+{% endblock %}
