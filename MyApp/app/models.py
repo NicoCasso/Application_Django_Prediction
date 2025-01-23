@@ -11,13 +11,25 @@ class InsuranceInfos(models.Model):
     children = models.IntegerField()
     smoker = models.BooleanField()
     region = models.CharField(max_length=100)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     customer_number = models.CharField(max_length=10, unique=True, default=uuid.uuid4().hex[:10].upper())
 
     def __str__(self):
         return f"{self.user.username}" if self.user else "Unknown User"
 
-    
+    def get_smoker_display(self):
+        return "Oui" if self.smoker else "Non"
+
+    def get_sex_display(self):
+        return self.sex.capitalize()
+
+    def get_region_display(self):
+        return self.region.capitalize()
+
+    def get_full_name(self):
+        return f"{self.user.first_name.capitalize()} {self.user.last_name.capitalize()}" if self.user else "Utilisateur inconnu"
+
+
 class Predictions(models.Model):
     charges = models.IntegerField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
@@ -25,4 +37,4 @@ class Predictions(models.Model):
 
     def __str__(self):
         return self.user_id.username
-    
+

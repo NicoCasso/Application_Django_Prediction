@@ -9,7 +9,10 @@
 </head>
 <body>
     <header>
-        <h1>Assur'Aimant</h1>
+        <div class="logo">
+            <img src="{% static 'icon/logo.png' %}" alt="Logo Assur'Aimant" height="200">
+        </div>               
+        {% comment %} <h1>Assur'Aimant</h1> {% endcomment %}
     </header>
     <main>
         {% block content %}

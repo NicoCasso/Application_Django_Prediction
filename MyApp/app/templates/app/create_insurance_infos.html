@@ -41,7 +41,7 @@
       <h2>Créer mes informations d'assurance</h2>
       <p>Remplissez le formulaire ci-dessous pour créer vos informations d'assurance.</p>
     </div>
-    <div>
+    {% comment %} <div>
       <form method="post">
         {% csrf_token %}
         
@@ -51,7 +51,24 @@
           <button type="submit" class="btn">Créer</button>
         </div>
       </form>
+    </div> {% endcomment %}
+    <div class="form-container">
+      <h2>Créer vos informations d'assurance</h2>
+      <form method="post">
+          {% csrf_token %}
+          {% for field in form %}
+              <div class="form-group">
+                  <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                  {{ field }}
+                  {% if field.errors %}
+                      <span class="error">{{ field.errors|striptags }}</span>
+                  {% endif %}
+              </div>
+          {% endfor %}
+          <button type="submit" class="btn-submit">Enregistrer</button>
+      </form>
     </div>
+  
     <div>
       <a href="{% url 'app:user_infos' %}">Retour à mes informations personnelles</a>
     </div>

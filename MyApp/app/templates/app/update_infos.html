@@ -50,12 +50,20 @@
                 </ul>
             {% endif %}
         </div>
-        <form method="post">
+        <form method="post" class="form-update">
             {% csrf_token %}
-            {{ form.as_p }}
-            <div class="button-container">
-                <button type="submit" class="btn">Enregistrer</button>
-            </div>
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="text-danger">
+                            {{ field.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Mettre à jour</button>
         </form>
         <a href="{% url 'app:user_infos' %}">Retour à mes informations personnelles</a>
     </div>
