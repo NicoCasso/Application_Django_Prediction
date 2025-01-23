@@ -1,1 +1,36 @@
 {% extends "base.html" %}
+
+{% block title %} Page principale pour les prédictions {% endblock %}
+{% block content %}
+
+    <br/>
+
+    <div style="border: solid blue; width:75%; margin: auto; text-align: center;">
+        <h2 style="color:blue;"> Page en cours de développement ... </h2> 
+        <center>
+            <table style="border: 1px solid blue; text-align: center;">
+                <thead>
+                    <tr> 
+                        <th>variable:</th><th>valeur:</th> 
+                    </tr> 
+                </thead>
+                <tbody>
+                    <tr> <td>request</td> <td> {{ request }}</td> </tr> 
+                    <tr> <td>user</td> <td> {{ user }}</td> </tr> 
+                    <tr> <td>test</td> <td> en cours </td> </tr> 
+                </tbody>
+            </table>
+        </center>
+        <br/>
+    </div>
+    
+    <br/>
+
+    {% comment %}
+        {% include 'includes/insuranceInfos_create.html'%}
+        {% include 'includes/insuranceInfos_update.html'%}
+    {% endcomment %}
+
+    {% include 'includes/insuranceInfos_create.html'%}
+
+{% endblock %}

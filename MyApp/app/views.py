@@ -22,10 +22,10 @@ class ProfileView(View):
     def get(self, request):
         return render(request, self.template_name)
 
-class PredictionView(View):
-    template_name = 'app/prediction.html'
-    def get(self, request):
-        return render(request, self.template_name)
+# class PredictionView(View):
+#     template_name = 'app/prediction.html'
+#     def get(self, request):
+#         return render(request, self.template_name)
     
 class UserInfosView(View):
     template_name = 'app/user_infos.html'
