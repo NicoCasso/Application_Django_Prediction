@@ -40,74 +40,34 @@
     <!-- Contenu principal -->
     <div class="content">
         {% comment %} <h1 class="title">Mes informations</h1> {% endcomment %}
+        <div class="user-summary">
+            <h2>Bienvenue, {{user.first_name}} {{user.last_name}}!</h2>
+            <p>Email : {{user.email}} </p>
+            <p>Numéro client : {{insurance_infos.customer_number}}</p>
+        </div>
         <!-- Informations personnelles -->
         <h3>Informations personnelles</h3>
         <table>
             <tr>
                 <th>Nom</th>
-                <td> </td>
+                <td>{{user.first_name}}</td>
+                {% comment %} <td>
+                    <a href="{% url 'app:update_infos' %}">
+                        <img src="{% static 'icon/pen.png' %}" alt="Icône Modifier" height="20">
+                    </a>
+                </td> {% endcomment %}
             </tr>
             <tr>
                 <th>Prénom</th>
-                <td> </td>
+                <td>{{user.last_name}}</td>
             </tr>
             
             <tr>
                 <th>Email</th>
-                <td> </td>
-            </tr>
-        </table>
-        
-        <!-- Informations pour les charges -->
-        <h3>Informations complémentaires</h3>
-        <table>
-            <tr>
-                <th>Numéro client</th>
-                <td> </td>
-            </tr>
-            <tr>
-                <th>Genre</th>
-                <td> </td>
-            </tr>
-            <tr>
-                <th>Age</th>
-                <td> </td>
-            </tr>
-            <tr>
-                <th>Nombre d'enfants</th>
-                <td> </td>
-            </tr>
-            <tr>
-                <th>Région</th>
-                <td> </td>
-            </tr>
-            <tr>
-                <th>Fumeur</th>
-                <td> </td>
-            </tr>
-            <tr>
-                <th>Taille</th>
-                <td> </td>
-            </tr>
-            <tr>
-                <th>Poids</th>
-                <td> </td>
+                <td>{{user.email}}</td>
             </tr>
         </table>
 
-        {% comment %} <!-- Options -->
-        <h3>Options</h3>
-        <table>
-            <tr>
-                <th>Ajouter des informations</th>
-                <td><a href="{% url 'app:create_insurance_infos' %}">Ajouter</a></td>
-            <tr>
-                <th>Modifier mes informations personnelles</th>
-                <td><a href="{% url 'app:update_infos' %}">Modifier</a></td>
-            </tr>
-
-        </table>
-         {% endcomment %}
     </div>
 </div>
 {% endblock %}

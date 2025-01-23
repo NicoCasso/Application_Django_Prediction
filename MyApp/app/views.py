@@ -48,15 +48,31 @@ class HomeView(TemplateView):
     template_name = 'app/home.html'
 
 
-class ProfileView(TemplateView):
+class ProfileView(LoginRequiredMixin, TemplateView):
     template_name = 'app/profil.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        try:
+            context['insurance_infos'] = InsuranceInfos.objects.get(user=self.request.user)
+        except InsuranceInfos.DoesNotExist:
+            context['insurance_infos'] = None
+        return context
+
 
 class PredictionView(TemplateView):
     template_name = 'app/prediction.html'
 
-class UserInfosView(TemplateView):
+class UserInfosView(LoginRequiredMixin, TemplateView):
     template_name = 'app/user_infos.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        try:
+            context['insurance_infos'] = InsuranceInfos.objects.get(user=self.request.user)
+        except InsuranceInfos.DoesNotExist:
+            context['insurance_infos'] = None
+        return context
 
 class UserInfosUpdateView(UpdateView):
     model = InsuranceInfos
@@ -74,7 +90,13 @@ class InsuranceInfosCreateView(LoginRequiredMixin, CreateView):
     model = InsuranceInfos
     form_class = InsuranceInfosForm
     template_name = 'app/create_insurance_infos.html'
-    success_url = reverse_lazy('app:user_infos')  # Assurez-vous que 'user_infos' existe dans urls.py
+    success_url = reverse_lazy('app:user_infos')
+
+    def dispatch(self, request, *args, **kwargs):
+        if InsuranceInfos.objects.filter(user=self.request.user).exists():
+            messages.info(request, "Vos informations ont déjà été saisies. Vous pouvez les modifier ici.")
+            return redirect('app:update_infos')
+        return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         form.instance.user = self.request.user

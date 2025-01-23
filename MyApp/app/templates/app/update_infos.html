@@ -41,6 +41,15 @@
         <div>
             <h1>Modifier mes informations personnelles</h1>
         </div>
+        <div>
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li class="message {{ message.tags }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
