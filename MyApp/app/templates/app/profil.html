@@ -9,6 +9,7 @@
 <!-- Sidebar Section -->
 <aside class="sidebar">
     <div class="sidebar-content">
+        <!-- Menu Items -->
         <div class="menu-item">
             <a href="{% url 'app:home' %}">
                 <img src="{% static 'icon/home.png' %}" alt="Icône Accueil" height="20">
@@ -17,14 +18,13 @@
         </div>            
         <div class="menu-item">
             <a href="{% url 'app:profil' %}">
-                <img src="{% static 'icon/user.png' %}" alt="Icône Accueil" height="20">
+                <img src="{% static 'icon/user.png' %}" alt="Icône Profil" height="20">
                 <span class="menu-text">Profil</span>
             </a>
         </div> 
-        <!-- Menu Items -->
         <div class="menu-item">
             <a href="{% url 'app:user_infos' %}">
-                <img src="{% static 'icon/contract.png' %}" alt="Icône Mon profil" height="20">
+                <img src="{% static 'icon/contract.png' %}" alt="Icône Mes informations" height="20">
                 <span class="menu-text">Mes informations</span>
             </a>
         </div>
@@ -34,35 +34,36 @@
                 <span class="menu-text">Mes démarches</span>
             </a>
         </div>
+    </div>
 </aside>
 
+<!-- Main Content Section -->
 <div class="main-container">
-    <!-- Contenu principal -->
     <div class="content">
-        {% comment %} <h1 class="title">Mes informations</h1> {% endcomment %}
+        <!-- User Summary Section -->
         <div class="user-summary">
-            <h2>Bienvenue, {{user.first_name}} {{user.last_name}}!</h2>
-            <p>Email : {{user.email}} </p>
-            <p>Numéro client : {{insurance_infos.customer_number}}</p>
+            <h2>Bienvenue, {{ user.first_name }} {{ user.last_name }}!</h2>
+            <p>Email : {{ user.email }}</p>
+            <p>Numéro client : {{ insurance_infos.customer_number }}</p>
         </div>
-        <!-- Informations personnelles -->
+
+        <!-- Personal Information Table -->
         <h3>Informations personnelles</h3>
         <table>
             <tr>
                 <th>Nom</th>
-                <td>{{user.first_name}}</td>
+                <td>{{ user.first_name }}</td>
             </tr>
             <tr>
                 <th>Prénom</th>
-                <td>{{user.last_name}}</td>
+                <td>{{ user.last_name }}</td>
             </tr>
-            
             <tr>
                 <th>Email</th>
-                <td>{{user.email}}</td>
+                <td>{{ user.email }}</td>
             </tr>
         </table>
-
     </div>
 </div>
+
 {% endblock %}

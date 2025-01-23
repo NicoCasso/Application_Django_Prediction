@@ -3,23 +3,24 @@
 {% block title %}Accueil - Assur'Aimant{% endblock %}
 
 {% block content %}
-
+<!-- Sidebar Section -->
 <div class="sidebar">
     <div class="container">
+        <!-- Se connecter -->
         <div class="box">
             <h2>Se connecter</h2>
             <a href="login">Accéder à votre compte</a>
         </div>
+        <!-- S'inscrire -->
         <div class="box">
             <h2>S'inscrire</h2>
             <a href="register">Créer un compte</a>
         </div>
-        {% comment %} <a href="{% url 'app:estimate' %}" class="cta-button">Commencer votre estimation</a> {% endcomment %}
     </div>
 </div>
 
+<!-- Main Content -->
 <div class="main-container">
-    <!-- Contenu principal -->
     <div class="content">
         <h1 class="title">Bienvenue sur l'Application Assur'Aimant!</h1>
         <p class="description">

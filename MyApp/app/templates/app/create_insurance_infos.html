@@ -3,72 +3,58 @@
 {% load static %}
 
 {% block content %}
-
 <!-- Sidebar Section -->
 <aside class="sidebar">
   <div class="sidebar-content">
-      <div class="menu-item">
-          <a href="{% url 'app:home' %}">
-              <img src="{% static 'icon/home.png' %}" alt="Icône Accueil" height="20">
-              <span class="menu-text">Déconnexion</span>
-          </a>
-      </div>            
-      <div class="menu-item">
-          <a href="{% url 'app:profil' %}">
-              <img src="{% static 'icon/user.png' %}" alt="Icône Accueil" height="20">
-              <span class="menu-text">Profil</span>
-          </a>
-      </div> 
-      <!-- Menu Items -->
-      <div class="menu-item">
-          <a href="{% url 'app:user_infos' %}">
-              <img src="{% static 'icon/contract.png' %}" alt="Icône Mon profil" height="20">
-              <span class="menu-text">Mes informations</span>
-          </a>
-      </div>
-      <div class="menu-item">
-          <a href="{% url 'app:prediction' %}">
-              <img src="{% static 'icon/paper-plane.png' %}" alt="Icône Mes démarches" height="20">
-              <span class="menu-text">Mes démarches</span>
-          </a>
-      </div>
+    <div class="menu-item">
+      <a href="{% url 'app:home' %}">
+        <img src="{% static 'icon/home.png' %}" alt="Icône Accueil" height="20">
+        <span class="menu-text">Déconnexion</span>
+      </a>
+    </div>
+    <div class="menu-item">
+      <a href="{% url 'app:profil' %}">
+        <img src="{% static 'icon/user.png' %}" alt="Icône Profil" height="20">
+        <span class="menu-text">Profil</span>
+      </a>
+    </div>
+    <div class="menu-item">
+      <a href="{% url 'app:user_infos' %}">
+        <img src="{% static 'icon/contract.png' %}" alt="Icône Mon profil" height="20">
+        <span class="menu-text">Mes informations</span>
+      </a>
+    </div>
+    <div class="menu-item">
+      <a href="{% url 'app:prediction' %}">
+        <img src="{% static 'icon/paper-plane.png' %}" alt="Icône Mes démarches" height="20">
+        <span class="menu-text">Mes démarches</span>
+      </a>
+    </div>
+  </div>
 </aside>
 
+<!-- Main Content -->
 <div class="main-container">
-  <!-- Contenu principal -->
   <div class="content">
-    <div>
-      <h2>Créer mes informations d'assurance</h2>
-      <p>Remplissez le formulaire ci-dessous pour créer vos informations d'assurance.</p>
-    </div>
-    {% comment %} <div>
+    <h2>Créer vos informations d'assurance</h2>
+    <p>Remplissez le formulaire ci-dessous pour créer vos informations d'assurance.</p>
+
+    <div class="form-container">
       <form method="post">
         {% csrf_token %}
-        
-        {{ form.as_p }}
-
-        <div class="button-container">
-          <button type="submit" class="btn">Créer</button>
-        </div>
-      </form>
-    </div> {% endcomment %}
-    <div class="form-container">
-      <h2>Créer vos informations d'assurance</h2>
-      <form method="post">
-          {% csrf_token %}
-          {% for field in form %}
-              <div class="form-group">
-                  <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                  {{ field }}
-                  {% if field.errors %}
-                      <span class="error">{{ field.errors|striptags }}</span>
-                  {% endif %}
-              </div>
-          {% endfor %}
-          <button type="submit" class="btn-submit">Enregistrer</button>
+        {% for field in form %}
+          <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+              <span class="error">{{ field.errors|striptags }}</span>
+            {% endif %}
+          </div>
+        {% endfor %}
+        <button type="submit" class="btn-submit">Enregistrer</button>
       </form>
     </div>
-  
+
     <div>
       <a href="{% url 'app:user_infos' %}">Retour à mes informations personnelles</a>
     </div>

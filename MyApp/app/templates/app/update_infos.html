@@ -17,14 +17,13 @@
         </div>            
         <div class="menu-item">
             <a href="{% url 'app:profil' %}">
-                <img src="{% static 'icon/user.png' %}" alt="Icône Accueil" height="20">
+                <img src="{% static 'icon/user.png' %}" alt="Icône Profil" height="20">
                 <span class="menu-text">Profil</span>
             </a>
         </div> 
-        <!-- Menu Items -->
         <div class="menu-item">
             <a href="{% url 'app:user_infos' %}">
-                <img src="{% static 'icon/contract.png' %}" alt="Icône Mon profil" height="20">
+                <img src="{% static 'icon/contract.png' %}" alt="Icône Mes informations" height="20">
                 <span class="menu-text">Mes informations</span>
             </a>
         </div>
@@ -34,22 +33,24 @@
                 <span class="menu-text">Mes démarches</span>
             </a>
         </div>
+    </div>
 </aside>
+
+<!-- Main Content Section -->
 <div class="main-container">
-    <!-- Contenu principal -->
-     <div class="content">
-        <div>
-            <h1>Modifier mes informations personnelles</h1>
-        </div>
-        <div>
-            {% if messages %}
-                <ul class="messages">
-                    {% for message in messages %}
+    <div class="content">
+        <h1>Modifier mes informations personnelles</h1>
+
+        <!-- Display Messages -->
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
                     <li class="message {{ message.tags }}">{{ message }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <!-- Form to Update User Information -->
         <form method="post" class="form-update">
             {% csrf_token %}
             {% for field in form %}
@@ -65,9 +66,12 @@
             {% endfor %}
             <button type="submit" class="btn btn-primary">Mettre à jour</button>
         </form>
-        <a href="{% url 'app:user_infos' %}">Retour à mes informations personnelles</a>
+
+        <!-- Link to go back to user information -->
+        <div class="back-link">
+            <a href="{% url 'app:user_infos' %}">Retour à mes informations personnelles</a>
+        </div>
     </div>
 </div>
-        
+
 {% endblock %}
-        

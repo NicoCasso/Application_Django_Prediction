@@ -2,8 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 import uuid
 
-# Create your models here.
-
 class InsuranceInfos(models.Model):
     age = models.IntegerField()
     sex = models.CharField(max_length=10)
@@ -29,12 +27,10 @@ class InsuranceInfos(models.Model):
     def get_full_name(self):
         return f"{self.user.first_name.capitalize()} {self.user.last_name.capitalize()}" if self.user else "Utilisateur inconnu"
 
-
 class Predictions(models.Model):
     charges = models.IntegerField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     info = models.ForeignKey(InsuranceInfos, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return self.user_id.username
-
+        return self.user.username if self.user else "Utilisateur inconnu"

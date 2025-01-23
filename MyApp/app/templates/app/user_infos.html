@@ -14,17 +14,16 @@
                 <img src="{% static 'icon/home.png' %}" alt="Icône Accueil" height="20">
                 <span class="menu-text">Déconnexion</span>
             </a>
-        </div>            
+        </div>
         <div class="menu-item">
             <a href="{% url 'app:profil' %}">
-                <img src="{% static 'icon/user.png' %}" alt="Icône Accueil" height="20">
+                <img src="{% static 'icon/user.png' %}" alt="Icône Profil" height="20">
                 <span class="menu-text">Profil</span>
             </a>
-        </div> 
-        <!-- Menu Items -->
+        </div>
         <div class="menu-item">
             <a href="{% url 'app:user_infos' %}">
-                <img src="{% static 'icon/contract.png' %}" alt="Icône Mon profil" height="20">
+                <img src="{% static 'icon/contract.png' %}" alt="Icône Mes informations" height="20">
                 <span class="menu-text">Mes informations</span>
             </a>
         </div>
@@ -34,60 +33,61 @@
                 <span class="menu-text">Mes démarches</span>
             </a>
         </div>
+    </div>
 </aside>
 
+<!-- Main Content Section -->
 <div class="main-container">
-    <!-- Contenu principal -->
     <div class="content">
         <h1 class="title">Mes informations</h1>
+        
         <!-- Informations personnelles -->
         <h3>Informations personnelles</h3>
         <table>
             <tr>
                 <th>Nom</th>
-                <td>{{user.last_name}}</td>
+                <td>{{ user.last_name }}</td>
             </tr>
             <tr>
                 <th>Prénom</th>
-                <td>{{user.first_name}}</td>
+                <td>{{ user.first_name }}</td>
             </tr>
-            
             <tr>
                 <th>Email</th>
-                <td>{{user.email}}</td>
+                <td>{{ user.email }}</td>
             </tr>
         </table>
         
-        <!-- Informations pour les charges -->
+        <!-- Informations complémentaires -->
         <h3>Informations complémentaires</h3>
         <table>
             <tr>
                 <th>Numéro client</th>
-                <td>{{insurance_infos.customer_number}}</td>
+                <td>{{ insurance_infos.customer_number }}</td>
             </tr>
             <tr>
                 <th>Genre</th>
-                <td>{{insurance_infos.get_sex_display}}</td>
+                <td>{{ insurance_infos.get_sex_display }}</td>
             </tr>
             <tr>
-                <th>Age</th>
-                <td>{{insurance_infos.age}}</td>
+                <th>Âge</th>
+                <td>{{ insurance_infos.age }}</td>
             </tr>
             <tr>
                 <th>Nombre d'enfants</th>
-                <td>{{insurance_infos.children}}</td>
+                <td>{{ insurance_infos.children }}</td>
             </tr>
             <tr>
                 <th>Région</th>
-                <td>{{insurance_infos.get_region_display}}</td>
+                <td>{{ insurance_infos.get_region_display }}</td>
             </tr>
             <tr>
                 <th>Fumeur</th>
-                <td>{{insurance_infos.get_smoker_display}}</td>
+                <td>{{ insurance_infos.get_smoker_display }}</td>
             </tr>
             <tr>
                 <th>BMI</th>
-                <td>{{insurance_infos.bmi}}</td>
+                <td>{{ insurance_infos.bmi }}</td>
             </tr>
         </table>
 
@@ -97,13 +97,13 @@
             <tr>
                 <th>Ajouter des informations</th>
                 <td><a href="{% url 'app:create_insurance_infos' %}">Ajouter</a></td>
+            </tr>
             <tr>
                 <th>Modifier mes informations personnelles</th>
                 <td><a href="{% url 'app:update_infos' %}">Modifier</a></td>
             </tr>
-
         </table>
-        
     </div>
 </div>
+
 {% endblock %}

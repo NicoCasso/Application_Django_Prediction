@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,7 +18,6 @@
             </div>
             {% endif %}
 
-            <!-- Décommentez cette section -->
             <form method="post">
                 {% csrf_token %}
                 <label for="username">Nom d'utilisateur</label>
@@ -27,12 +26,10 @@
                 <input type="password" name="password" required>
                 <button type="submit">Se connecter</button>
             </form>
-            {% comment %} <p class="link">Pas encore inscrit ? <a href="{% url 'register' %}">S'inscrire</a></p> <!-- Lien vers la page d'inscription --> {% endcomment %}
         </div>
     </div>
-    
+
     <style>
-        /* CSS */
         /* Import Google font - Poppins */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 
@@ -43,14 +40,10 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        h1 {
-            margin: 20px 0;
-        }
-
         body {
             min-height: 100vh;
             width: 100%;
-            background: #59754e;
+            background: #00296b;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -59,55 +52,60 @@
         .container {
             width: 400px;
             background: #fff;
-            border-radius: 7px;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
         }
 
-        .container .form {
+        .form {
             padding: 30px;
+        }
+
+        h1 {
+            margin: 20px 0;
+            color: #00296b;
+            text-align: center;
         }
 
         label {
             padding: 10px 0;
-            color: #59754e;
+            color: #003f88;
+            font-weight: bold;
             cursor: pointer;
         }
 
         input {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             font-size: 17px;
             border: 1px solid #ddd;
             border-radius: 6px;
             outline: none;
             margin-bottom: 15px;
             margin-top: 10px;
+            background-color: #f9f9f9;
         }
 
-        a {
-            font-size: 16px;
-            color: #59754e;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
+        input:focus {
+            border-color: #00509d;
+            box-shadow: 0 0 5px rgba(0, 80, 157, 0.3);
         }
 
         button {
             color: #fff;
-            background: #59754e;
+            background: #00509d;
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             font-size: 17px;
             margin-top: 10px;
             border: none;
             border-radius: 6px;
             outline: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
         button:hover {
-            background: #59754e;
+            background: #003f88;
         }
 
         .link {
@@ -115,8 +113,19 @@
             margin-top: 20px;
         }
 
+        .link a {
+            font-size: 16px;
+            color: #00509d;
+            text-decoration: none;
+        }
+
+        .link a:hover {
+            text-decoration: underline;
+            color: #ffd500;
+        }
+
         .error {
-            background-color: red;
+            background-color: #e76f51;
             color: #fff;
             border-radius: 6px;
             padding: 10px;
