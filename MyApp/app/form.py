@@ -39,19 +39,30 @@ class InsuranceInfosUpdateForm(forms.ModelForm):
     height = forms.FloatField(
         label="Taille (cm)",
         min_value=50,
-        max_value=300,
-        widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Votre taille en cm'})
+        max_value=300
     )
     weight = forms.FloatField(
         label="Poids (kg)",
         min_value=10,
-        max_value=500,
-        widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Votre poids en kg'})
+        max_value=500
     )
     smoker = forms.ChoiceField(
         label="Fumeur",
-        choices=SMOKER_CHOICES,
-        widget=forms.Select(attrs={'class': 'form-control'}),
+        choices=SMOKER_CHOICES
+    )
+    age = forms.IntegerField(
+        label="Votre âge"
+    )
+    sex = forms.ChoiceField(
+        label="Genre",
+        choices=SEX_CHOICES
+    )
+    region = forms.ChoiceField(
+        label="Région",
+        choices=REGIONS_CHOICES
+    )
+    children = forms.IntegerField(
+        label="Nombre d'enfants"
     )
 
     class Meta:
@@ -62,6 +73,9 @@ class InsuranceInfosUpdateForm(forms.ModelForm):
             'sex': forms.Select(attrs={'class': 'form-control'}, choices=SEX_CHOICES),
             'region': forms.Select(attrs={'class': 'form-control'}, choices=REGIONS_CHOICES),
             'children': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Nombre d\'enfants', 'min': 0, 'max': 20}),
+            'height': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Votre taille en cm'}),
+            'weight': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Votre poids en kg'}),
+            'smoker': forms.Select(attrs={'class': 'form-control'}),
         }
 
     def save(self, commit=True):
