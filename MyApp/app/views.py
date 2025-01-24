@@ -103,7 +103,15 @@ class InsuranceInfosCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        form.instance.bmi = form.cleaned_data['bmi']
+        
+        height = form.cleaned_data.get('height')
+        weight = form.cleaned_data.get('weight')
+
+        if height and weight:
+            bmi = round(weight / ((height / 100) ** 2), 2)
+            form.instance.bmi = bmi
+        else:
+            form.instance.bmi = None
         return super().form_valid(form)
 
     def dispatch(self, request, *args, **kwargs):
