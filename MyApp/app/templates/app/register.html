@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription</title>
 </head>
+
 <body>
     <div class="container">
         <div class="container">
-            <div class="form">
-                {% comment %} <form method="post" action="{% url 'register' %}"> {% endcomment %}
+            <form class="form" method="post">
+
                     {% csrf_token %}
                     <h1>Inscription</h1>
-                    {{ form.as_p }}    
+                    {{ form.as_p }}
                     <button type="submit">S'inscrire</button>
-                </form>
+            </form>
+        </div>
 
-        </div>      
     </div>
+
     <style>
         /* CSS */
         /* Import Google font - Poppins */
@@ -101,19 +104,22 @@
             text-align: center;
             margin-top: 20px;
         }
+
         .error {
             background-color: red;
             color: #fff;
             border-radius: 6px;
             padding: 10px;
             margin-bottom: 10px;
-            font-size: 14px;      
-            text-align: center; 
+            font-size: 14px;
+            text-align: center;
         }
+
         ul {
             list-style: none;
             color: red;
         }
     </style>
 </body>
+
 </html>
