@@ -11,20 +11,34 @@ from predictor import Predictor
 #     def get(self, request):
 #         return render(request, self.template_name)
 
-class PredictionView_first(CreateView):
+class PredictionView_create(CreateView):
     model = InsuranceInfos
     form_class = InsuranceInfos_Form
     template_name = 'app/prediction.html' # spécifie le template
     context_object_name = 'insurance_infos' #le nom utilisé dans le template
-    #success_url = 
 
-    def get_object(self, queryset=None):
-        try:
-            return InsuranceInfos.objects.get_or_create(user=self.request.user)
-        except InsuranceInfos.DoesNotExist:
-            raise Http404("Aucune information trouvée pour cet utilisateur.")
+    def get(self, request, *args, **kwargs):
+        print(" ______________________________________________________________________")
+        print("|                                                                      |")
+        print("|                  PredictionView_create : GET                         |")
+        print("|______________________________________________________________________|")
+        self.object = InsuranceInfos()
+        self.object.age=30, 
+        self.object.sex="male"
+        self.object.bmi=29.0
+        self.object.children=2
+        self.object.smoker="yes"
+        self.object.region="southwest"
+
+        #self.form_class.fields["age"] = 
+        return super().get(request, *args, **kwargs)
         
     def post(self, request, *args, **kwargs):
+        print(" ______________________________________________________________________")
+        print("|                                                                      |")
+        print("|                  PredictionView_create : POST                        |")
+        print("|______________________________________________________________________|")
+        self.object = InsuranceInfos()
         self.object = None
 
         predictor = Predictor("serialized_model.pkl")
@@ -35,27 +49,32 @@ class PredictionView_first(CreateView):
         
         return super().post(request, *args, **kwargs)
     
-class PredictionView_second(UpdateView):
+class PredictionView_update(UpdateView):
     model = InsuranceInfos
     form_class = InsuranceInfos_Form
     template_name = 'app/prediction.html' # spécifie le template
     context_object_name = 'insurance_infos' #le nom utilisé dans le template
 
-    def get_object(self, queryset=None):
-        try:
-            return InsuranceInfos.objects.get(user=self.request.user)
-        except InsuranceInfos.DoesNotExist:
-            raise Http404("Aucune information trouvée pour cet utilisateur.")
+    def get(self, request, *args, **kwargs):
+        print(" ______________________________________________________________________")
+        print("|                                                                      |")
+        print("|                  PredictionView_update : POST                        |")
+        print("|______________________________________________________________________|")
+        self.object = InsuranceInfos()
+        self.object.age=30, 
+        self.object.sex="male"
+        self.object.bmi=29.0
+        self.object.children=2
+        self.object.smoker="yes"
+        self.object.region="southwest"
+        return super().get(request, *args, **kwargs)
         
     def post(self, request, *args, **kwargs):
-        self.object = None
-
-        predictor = Predictor("serialized_model.pkl")
-
-        age = self.object['age']
-        
-        #pipeline = predictor.predict()
-        
+        print(" ______________________________________________________________________")
+        print("|                                                                      |")
+        print("|                  PredictionView_update : POST                        |")
+        print("|______________________________________________________________________|")
+        self.object = self.get_object()
         return super().post(request, *args, **kwargs)
 
 
