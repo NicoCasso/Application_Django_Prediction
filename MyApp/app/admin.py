@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import InsuranceInfos
+from .models import InsuranceInfos, Predictions
 
-# Register your models here.
 admin.site.register(InsuranceInfos)
+admin.site.register(Predictions)

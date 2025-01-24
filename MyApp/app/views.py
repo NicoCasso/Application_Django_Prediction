@@ -12,8 +12,13 @@ from .models import InsuranceInfos
 
 from typing import cast
 
+from django.views.generic import TemplateView,CreateView
+from django.contrib.auth import get_user_model
+from django.urls import reverse_lazy
 
-class RegisterView(TemplateView):
+class RegisterView(CreateView):
+    model = get_user_model()
+    form_class = CustomUserCreationForm
     template_name = 'app/register.html'
 
     def inscription(request):
@@ -25,6 +30,7 @@ class RegisterView(TemplateView):
         else:
             form = CustomUserCreationForm()
         return render(request, 'app/register.html', {'form': form})
+    success_url = reverse_lazy('login')
 
 
 class LoginView(TemplateView):
@@ -38,7 +44,7 @@ class LoginView(TemplateView):
 
             if user is not None:
                 login(request, user)
-                return redirect('app:profil')
+                return redirect('home')
             else:
                 messages.error(request, "Nom d'utilisateur ou mot de passe incorrect")
                 return redirect('app:login')
@@ -51,6 +57,7 @@ class HomeView(TemplateView):
 
 class ProfileView(LoginRequiredMixin, TemplateView):
     template_name = 'app/profil.html'
+
 
 class UserInfosView(View):
     def get_context_data(self, **kwargs):

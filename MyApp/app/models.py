@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 import uuid
 
+
 class InsuranceInfos(models.Model):
     age = models.IntegerField()
     sex = models.CharField(max_length=10)

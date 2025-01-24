@@ -1,34 +1,39 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import InsuranceInfos
-
-REGIONS_CHOICES = [
-    ('southwest', 'Sud-Ouest'),
-    ('northeast', 'Nord-Est'),
-    ('southeast', 'Sud-Est'),
-    ('northwest', 'Nord-Ouest'),
-]
-
-SEX_CHOICES = [
-    ('male', 'Homme'),
-    ('female', 'Femme'),
-]
-
-SMOKER_CHOICES = [
-    (True, 'Oui'),
-    (False, 'Non'),
-]
+# from .models import CustomUser
 
 class CustomUserCreationForm(UserCreationForm):
     password1 = forms.CharField(
-        label="Password",
+        label="Mot de passe",
         strip=False,
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
     )
     password2 = forms.CharField(
-        label="Password confirmation",
+        label="Confirmation de mot de passe",
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
         strip=False,
+    )
+    age = forms.IntegerField(
+        label="Âge",
+        required=True,
+    )
+    sexe = forms.ChoiceField(
+        label="Sexe",
+        choices=[('M', 'Homme'), ('F', 'Femme')],
+        required=True,
+    )
+    nombre_enfants = forms.IntegerField(
+        label="Nombre d'enfants",
+        required=True,
+    )
+    taille = forms.IntegerField(
+        label="Taille (en cm)",
+        required=True,
+
+    )
+    poids = forms.IntegerField(
+        label="Poids (en kg)",
+        required=True,
     )
 
     class Meta(UserCreationForm.Meta):
@@ -91,3 +96,5 @@ class InsuranceInfosUpdateForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
+        # model = CustomUser
+        fields = UserCreationForm.Meta.fields + ("password1", "password2", "age", "sexe", "nombre_enfants", "taille", "poids")
