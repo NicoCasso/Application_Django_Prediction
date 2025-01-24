@@ -88,8 +88,12 @@ class UserInfosUpdateView(UpdateView):
     def form_valid(self, form):
         height = form.cleaned_data.get('height')
         weight = form.cleaned_data.get('weight')
+
         if height and weight:
-            form.instance.bmi = round(weight / ((height / 100) ** 2), 2)
+            bmi = round(weight / ((height / 100) ** 2), 2)
+            form.instance.bmi = bmi
+        else:
+            form.instance.bmi = None
 
         messages.success(self.request, "Vos informations ont été mises à jour avec succès.")
         return super().form_valid(form)
@@ -103,7 +107,16 @@ class InsuranceInfosCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        form.instance.bmi = form.cleaned_data['bmi']
+
+        height = form.cleaned_data.get('height')
+        weight = form.cleaned_data.get('weight')
+
+        if height and weight:
+            bmi = round(weight / ((height / 100) ** 2), 2)
+            form.instance.bmi = bmi
+        else:
+            form.instance.bmi = None
+
         return super().form_valid(form)
 
     def dispatch(self, request, *args, **kwargs):

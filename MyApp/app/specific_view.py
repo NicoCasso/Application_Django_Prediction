@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import View, CreateView, UpdateView
 from django.http import Http404
 from .models import InsuranceInfos, Predictions
-from .forms import InsuranceInfos_Form
+from .form import InsuranceInfosUpdateForm
 
 from predictor import Predictor
 
@@ -13,7 +13,7 @@ from predictor import Predictor
 
 class PredictionView_create(CreateView):
     model = InsuranceInfos
-    form_class = InsuranceInfos_Form
+    form_class = InsuranceInfosUpdateForm
     template_name = 'app/prediction.html' # spécifie le template
     context_object_name = 'insurance_infos' #le nom utilisé dans le template
 
@@ -51,7 +51,7 @@ class PredictionView_create(CreateView):
     
 class PredictionView_update(UpdateView):
     model = InsuranceInfos
-    form_class = InsuranceInfos_Form
+    form_class = InsuranceInfosUpdateForm
     template_name = 'app/prediction.html' # spécifie le template
     context_object_name = 'insurance_infos' #le nom utilisé dans le template
 
