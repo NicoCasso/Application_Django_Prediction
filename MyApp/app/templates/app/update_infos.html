@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% load static %}
 
@@ -9,7 +9,6 @@
 <!-- Sidebar Section -->
 <aside class="sidebar">
     <div class="sidebar-content">
-        <!-- Menu Items -->
         <div class="menu-item">
             <a href="{% url 'app:home' %}">
                 <img src="{% static 'icon/home.png' %}" alt="Icône Accueil" height="20">
@@ -40,29 +39,38 @@
 <!-- Main Content Section -->
 <div class="main-container">
     <div class="content">
-        <!-- User Summary Section -->
-        <div class="user-summary">
-            <h2>Bienvenue, {{ user.first_name }} {{ user.last_name }}!</h2>
-            <p>Email : {{ user.email }}</p>
-            <p>Numéro client : {{ insurance_infos.customer_number }}</p>
-        </div>
+        <h1>Modifier mes informations personnelles</h1>
 
-        <!-- Personal Information Table -->
-        <h3>Informations personnelles</h3>
-        <table>
-            <tr>
-                <th>Nom</th>
-                <td>{{ user.first_name }}</td>
-            </tr>
-            <tr>
-                <th>Prénom</th>
-                <td>{{ user.last_name }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ user.email }}</td>
-            </tr>
-        </table>
+        <!-- Display Messages -->
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li class="message {{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <!-- Form to Update User Information -->
+        <form method="post" class="form-update">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="text-danger">
+                            {{ field.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Mettre à jour</button>
+        </form>
+
+        <!-- Link to go back to user information -->
+        <div class="back-link">
+            <a href="{% url 'app:user_infos' %}">Retour à mes informations personnelles</a>
+        </div>
     </div>
 </div>
 
