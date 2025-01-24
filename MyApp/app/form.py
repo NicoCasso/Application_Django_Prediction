@@ -2,7 +2,6 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import InsuranceInfos
 
-# définir les choix pour les régions etc dans la bdd
 REGIONS_CHOICES = [
     ('southwest', 'Sud-Ouest'),
     ('northeast', 'Nord-Est'),
@@ -16,8 +15,8 @@ SEX_CHOICES = [
 ]
 
 SMOKER_CHOICES = [
-    ('yes', 'Oui'),
-    ('no', 'Non'),
+    (True, 'Oui'),
+    (False, 'Non'),
 ]
 
 class CustomUserCreationForm(UserCreationForm):
@@ -35,6 +34,7 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         fields = UserCreationForm.Meta.fields + ("password1", "password2")
 
+
 class InsuranceInfosUpdateForm(forms.ModelForm):
     height = forms.FloatField(
         label="Taille (cm)",
@@ -48,36 +48,32 @@ class InsuranceInfosUpdateForm(forms.ModelForm):
         max_value=500,
         widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Votre poids en kg'})
     )
+    smoker = forms.ChoiceField(
+        label="Fumeur",
+        choices=SMOKER_CHOICES,
+        widget=forms.Select(attrs={'class': 'form-control'}),
+    )
 
     class Meta:
         model = InsuranceInfos
-        fields = ['age', 'sex', 'smoker', 'region', 'children']
+        fields = ['age', 'sex', 'smoker', 'region', 'children', 'height', 'weight']
         widgets = {
             'age': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Votre âge', 'min': 0, 'max': 120}),
             'sex': forms.Select(attrs={'class': 'form-control'}, choices=SEX_CHOICES),
-            'smoker': forms.Select(attrs={'class': 'form-control'}, choices=SMOKER_CHOICES),
             'region': forms.Select(attrs={'class': 'form-control'}, choices=REGIONS_CHOICES),
             'children': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Nombre d\'enfants', 'min': 0, 'max': 20}),
         }
 
-    def clean(self):
-        cleaned_data = super().clean()
-        height = cleaned_data.get("height")
-        weight = cleaned_data.get("weight")
-        sex = cleaned_data.get("sex")
-        smoker = cleaned_data.get("smoker")
-        region = cleaned_data.get("region")
+    def save(self, commit=True):
+        instance = super().save(commit=False)
 
-        cleaned_data['sex'] = 'female' if sex == 'Femme' else 'male' if sex == 'Homme' else sex
-        cleaned_data['smoker'] = 'yes' if smoker == 'Oui' else 'no' if smoker == 'Non' else smoker
-        cleaned_data['region'] = {
-            'Sud-Ouest': 'southwest',
-            'Nord-Ouest': 'northwest',
-            'Sud-Est': 'southeast',
-            'Nord-Est': 'northeast'
-        }.get(region, region)
+        instance.smoker = self.cleaned_data['smoker']
 
+        height = self.cleaned_data.get('height')
+        weight = self.cleaned_data.get('weight')
         if height and weight:
-            cleaned_data['bmi'] = round(weight / ((height / 100) ** 2), 2)
+            instance.bmi = round(weight / ((height / 100) ** 2), 2)
 
-        return cleaned_data
+        if commit:
+            instance.save()
+        return instance

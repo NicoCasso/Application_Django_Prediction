@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
+from django.http import Http404
 from .form import CustomUserCreationForm, InsuranceInfosUpdateForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
@@ -64,7 +65,14 @@ class UserInfosView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['insurance_infos'] = InsuranceInfos.objects.filter(user=self.request.user).first()
+        insurance_info = InsuranceInfos.objects.filter(user=self.request.user).first()
+
+        if insurance_info:
+            context['gender'] = insurance_info.get_sex_display()
+            context['region'] = insurance_info.get_region_display()
+            context['smoker'] = insurance_info.get_smoker_display()
+        
+        context['insurance_infos'] = insurance_info
         return context
 
 

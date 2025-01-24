@@ -19,9 +19,21 @@ class InsuranceInfos(models.Model):
         return "Oui" if self.smoker else "Non"
 
     def get_sex_display(self):
+        if self.sex == 'male':
+            return 'Homme'
+        elif self.sex == 'female':
+            return 'Femme'
         return self.sex.capitalize()
 
     def get_region_display(self):
+        if self.region == 'southwest':
+            return 'Sud-Ouest'
+        elif self.region == 'northeast':
+            return 'Nord-Est'
+        elif self.region == 'southeast':
+            return 'Sud-Est'
+        elif self.region == 'northwest':
+            return 'Nord-Ouest'
         return self.region.capitalize()
 
     def get_full_name(self):
