@@ -35,6 +35,13 @@ def get_perdiction_page(request):
         charges = prediction)
     
     if request.method =="POST" :
+        print("     _________________________________________")
+        print("    |")
+        print(f"    |        enregistrement de  : ")
+        print(f"    |            request.user  = {prediction_model.user} ") 
+        print(f"    |            insurance_infos.id = {prediction_model.info.id}")
+        print(f"    |            charges = {prediction_model.charges}")
+        print("    |__________________________________________")
         prediction_model.save()
     
     context = {
