@@ -10,6 +10,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from .models import InsuranceInfos
 
+from typing import cast
+
 
 class RegisterView(TemplateView):
     template_name = 'app/register.html'
@@ -89,6 +91,8 @@ class UserInfosUpdateView(UpdateView):
         height = form.cleaned_data.get('height')
         weight = form.cleaned_data.get('weight')
 
+        form.instance = cast(InsuranceInfosUpdateForm, form)
+     
         if height and weight:
             bmi = round(weight / ((height / 100) ** 2), 2)
             form.instance.bmi = bmi

@@ -1,80 +1,45 @@
 from django.shortcuts import render
-from django.views.generic import View, CreateView, UpdateView
 from django.http import Http404
 from .models import InsuranceInfos, Predictions
-from .form import InsuranceInfosUpdateForm
 
 from predictor import Predictor
 
-# class PredictionView2(View):
-#     template_name = 'app/prediction.html'
-#     def get(self, request):
-#         return render(request, self.template_name)
+def get_perdiction_page(request):
+    insurance_infos = InsuranceInfos.objects.filter(user=request.user).first()
+    if insurance_infos == None :
+        return Http404("Aucune information trouvée pour cet utilisateur.")
 
-class PredictionView_create(CreateView):
-    model = InsuranceInfos
-    form_class = InsuranceInfosUpdateForm
-    template_name = 'app/prediction.html' # spécifie le template
-    context_object_name = 'insurance_infos' #le nom utilisé dans le template
+    predictor = Predictor("serialized_model.pkl")
 
-    def get(self, request, *args, **kwargs):
-        print(" ______________________________________________________________________")
-        print("|                                                                      |")
-        print("|                  PredictionView_create : GET                         |")
-        print("|______________________________________________________________________|")
-        self.object = InsuranceInfos()
-        self.object.age=30, 
-        self.object.sex="male"
-        self.object.bmi=29.0
-        self.object.children=2
-        self.object.smoker="yes"
-        self.object.region="southwest"
+    print(" ______________________________________________ ")
+    print("|")
+    print(f"|        insurance_infos.age : { insurance_infos.age}")
+    print(f"|        insurance_infos.sex: { insurance_infos.sex}")
+    print(f"|        insurance_infos.bmi: { insurance_infos.bmi}")
+    print(f"|        insurance_infos.children: { insurance_infos.children}")
+    print(f"|        insurance_infos.smoker: { insurance_infos.smoker}")
+    print(f"|        region=insurance_infos.region: { insurance_infos.region}")
+    print("|______________________________________________ ")
 
-        #self.form_class.fields["age"] = 
-        return super().get(request, *args, **kwargs)
-        
-    def post(self, request, *args, **kwargs):
-        print(" ______________________________________________________________________")
-        print("|                                                                      |")
-        print("|                  PredictionView_create : POST                        |")
-        print("|______________________________________________________________________|")
-        self.object = InsuranceInfos()
-        self.object = None
-
-        predictor = Predictor("serialized_model.pkl")
-
-        age = self.object['age']
-        
-        #pipeline = predictor.predict()
-        
-        return super().post(request, *args, **kwargs)
+    prediction = predictor.predict(
+        age=insurance_infos.age, 
+        sex=insurance_infos.sex, 
+        bmi=insurance_infos.bmi,
+        children=insurance_infos.children,
+        smoker="yes" if insurance_infos.smoker else "no", 
+        region=insurance_infos.region)
     
-class PredictionView_update(UpdateView):
-    model = InsuranceInfos
-    form_class = InsuranceInfosUpdateForm
-    template_name = 'app/prediction.html' # spécifie le template
-    context_object_name = 'insurance_infos' #le nom utilisé dans le template
+    prediction_model = Predictions(
+        user= request.user, 
+        info=insurance_infos,
+        charges = prediction)
+    
+    if request.method =="POST" :
+        prediction_model.save()
+    
+    context = {
+        'insurance_infos' : insurance_infos,
+        'prediction' : float(int(prediction))
+    }
 
-    def get(self, request, *args, **kwargs):
-        print(" ______________________________________________________________________")
-        print("|                                                                      |")
-        print("|                  PredictionView_update : POST                        |")
-        print("|______________________________________________________________________|")
-        self.object = InsuranceInfos()
-        self.object.age=30, 
-        self.object.sex="male"
-        self.object.bmi=29.0
-        self.object.children=2
-        self.object.smoker="yes"
-        self.object.region="southwest"
-        return super().get(request, *args, **kwargs)
-        
-    def post(self, request, *args, **kwargs):
-        print(" ______________________________________________________________________")
-        print("|                                                                      |")
-        print("|                  PredictionView_update : POST                        |")
-        print("|______________________________________________________________________|")
-        self.object = self.get_object()
-        return super().post(request, *args, **kwargs)
-
-
+    return render(request = request, template_name='app/prediction.html', context= context)

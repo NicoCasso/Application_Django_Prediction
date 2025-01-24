@@ -6,9 +6,9 @@ if __name__ == "__main__" :
     prediction = predictor.predict(
         age=30, 
         sex="male", 
-        bmi=29.0,
+        bmi=20,
         children=2,
-        smoker="yes", 
+        smoker="no", 
         region="southwest")
     
     print(prediction)

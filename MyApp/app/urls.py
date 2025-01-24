@@ -1,7 +1,7 @@
 from django.urls import path
 #from .views import HomeView, RegisterView, LoginView, ProfileView, UserInfosView
 from .views import *
-from .specific_view import PredictionView_create, PredictionView_update
+from . import specific_view
 from django.contrib.auth.views import LogoutView
 
 app_name = 'app'
@@ -15,5 +15,5 @@ urlpatterns = [
     path('update_infos/', UserInfosUpdateView.as_view(), name='update_infos'),
     path('create_insurance_infos/', InsuranceInfosCreateView.as_view(), name='create_insurance_infos'),
     path('logout', LogoutView.as_view(), name='logout'),
-    path('prediction', PredictionView_update.as_view(), name='prediction'),
+    path('prediction', specific_view.get_perdiction_page, name='prediction'),
 ]
