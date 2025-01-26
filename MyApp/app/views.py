@@ -50,6 +50,18 @@ class ProfileView(LoginRequiredMixin, TemplateView):
 class PredictionView(TemplateView):
     template_name = 'app/prediction.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        insurance_info = InsuranceInfos.objects.filter(user=self.request.user).first()
+
+        if insurance_info:
+            context['gender'] = insurance_info.get_sex_display()
+            context['region'] = insurance_info.get_region_display()
+            context['smoker'] = insurance_info.get_smoker_display()
+        
+        context['insurance_infos'] = insurance_info
+        return context
+
 
 class UserInfosView(LoginRequiredMixin, TemplateView):
     template_name = 'app/user_infos.html'

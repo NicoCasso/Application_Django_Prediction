@@ -1,7 +1,9 @@
 {% extends "base.html" %}
+
 {% load static %}
 
 {% block content %}
+
 <!-- Sidebar Section -->
 {% block navbar %}
     <nav class="bg-navy-600 text-white p-4 shadow-md">
@@ -15,19 +17,78 @@
         </div>
     </nav>
 {% endblock %}
-        <!-- Menu Items -->
-        <div class="menu-item">
-            <a href="{% url 'app:user_infos' %}">
-                <img src="{% static 'icon/contract.png' %}" alt="Icône Mon profil" height="20">
-                <span class="menu-text">Mes informations</span>
-            </a>
+
+<!-- Main Content Section -->
+<div class="main-container bg-[#f2f2f2] pt-8 px-auto pb-12">
+    <!-- Utilisation de la grille pour diviser en deux colonnes -->
+    <div class="grid grid-cols-2 gap-8 container mx-auto">
+        <!-- Partie "Mes informations" -->
+        <div class="bg-white rounded-lg shadow-xl p-8">
+            <h1 class="text-3xl font-semibold mb-6 text-[#1c2b36]">Mes informations</h1>
+
+            <!-- Informations complémentaires -->
+            <h3 class="text-2xl font-semibold mb-4 text-[#1c2b36]">Informations complémentaires</h3>
+            <table class="min-w-full table-auto border-collapse mb-8">
+                <thead class="bg-[#00bfae]">
+                    <tr>
+                        <th class="px-4 py-2 text-left text-white font-semibold">Genre</th>
+                        <th class="px-4 py-2 text-left text-white font-semibold">Âge</th>
+                        <th class="px-4 py-2 text-left text-white font-semibold">Région</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b hover:bg-[#f7f7f7] transition duration-200">
+                        <td class="px-4 py-2">{{ gender }}</td>
+                        <td class="px-4 py-2">{{ insurance_infos.age }}</td>
+                        <td class="px-4 py-2">{{ region }}</td>
+                    </tr>
+                </tbody>
+                <thead class="bg-[#00bfae]">
+                    <tr>
+                        <th class="px-4 py-2 text-left text-white font-semibold">Nombre d'enfants</th>
+                        <th class="px-4 py-2 text-left text-white font-semibold">Fumeur</th>
+                        <th class="px-4 py-2 text-left text-white font-semibold">IMC</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b hover:bg-[#f7f7f7] transition duration-200">
+                        <td class="px-4 py-2">{{ insurance_infos.children }}</td>
+                        <td class="px-4 py-2">{{ smoker }}</td>
+                        <td class="px-4 py-2">{{ insurance_infos.bmi }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <div class="menu-item">
-            <a href="{% url 'app:prediction' %}">
-                <img src="{% static 'icon/paper-plane.png' %}" alt="Icône Mes démarches" height="20">
-                <span class="menu-text">Mes démarches</span>
-            </a>
+
+        <!-- Partie "Prédiction" -->
+        <div class="bg-white rounded-lg shadow-xl p-8">
+            <h1 class="text-3xl font-semibold mb-6 text-[#1c2b36]">Estimation d'assurance santé</h1>
+            <!-- Contenu de prédiction ici -->
+            <p>Vous pouvez estimer le coût de votre assurance santé en fonction de vos informations personnelles.</p>
+            <div class="mt-6 flex justify-between">
+                <button id="estimateButton" class="bg-[#00bfae] text-white py-2 px-6 rounded-lg hover:bg-[#008f8f] transition duration-300 mx-auto">
+                    Lancer l'estimation
+                </button>
+            </div>
+        
+            <!-- Affichage de l'estimation après prédiction -->
+            <div id="result" class="mt-6 hidden">
+                <p class="text-xl font-semibold text-[#1c2b36]">L'estimation annuelle de votre prime d'assurance santé s'élève à <span id="estimatedPrice" class="text-[#00bfae]">[montant]</span>.</p>
+            </div>
         </div>
-</aside>
+        
+        <script>
+            document.getElementById('estimateButton').addEventListener('click', function() {
+                // Exemple d'appel à une fonction pour obtenir l'estimation via AJAX
+                // Remplacez cela par l'appel réel à votre modèle de prédiction
+                let estimatedPrice = 0;  // Exemple de prix retourné par votre modèle
+        
+                document.getElementById('result').classList.remove('hidden');
+                document.getElementById('estimatedPrice').textContent = estimatedPrice + ' €';
+            });
+        </script>
+        
+    </div>
+</div>
 
 {% endblock %}
