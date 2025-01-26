@@ -3,60 +3,46 @@
 {% load static %}
 
 {% block content %}
-<!-- Sidebar Section -->
-<aside class="sidebar">
-  <div class="sidebar-content">
-    <div class="menu-item">
-      <a href="{% url 'app:home' %}">
-        <img src="{% static 'icon/home.png' %}" alt="Icône Accueil" height="20">
-        <span class="menu-text">Déconnexion</span>
-      </a>
-    </div>
-    <div class="menu-item">
-      <a href="{% url 'app:profil' %}">
-        <img src="{% static 'icon/user.png' %}" alt="Icône Profil" height="20">
-        <span class="menu-text">Profil</span>
-      </a>
-    </div>
-    <div class="menu-item">
-      <a href="{% url 'app:user_infos' %}">
-        <img src="{% static 'icon/contract.png' %}" alt="Icône Mon profil" height="20">
-        <span class="menu-text">Mes informations</span>
-      </a>
-    </div>
-    <div class="menu-item">
-      <a href="{% url 'app:prediction' %}">
-        <img src="{% static 'icon/paper-plane.png' %}" alt="Icône Mes démarches" height="20">
-        <span class="menu-text">Mes démarches</span>
-      </a>
-    </div>
-  </div>
-</aside>
+<!-- Navbar Section -->
+{% block navbar %}
+    <nav class="bg-navy-600 text-white p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="space-x-6 flex items-center">
+                <a href="{% url 'app:home' %}" class="hover:text-[#00bfae] transition duration-300">Déconnexion</a>
+                <a href="{% url 'app:profil' %}" class="hover:text-[#00bfae] transition duration-300">Profil</a>
+                <a href="{% url 'app:user_infos' %}" class="hover:text-[#00bfae] transition duration-300">Mes informations</a>
+                <a href="{% url 'app:prediction' %}" class="hover:text-[#00bfae] transition duration-300">Mes démarches</a>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
 
-<!-- Main Content -->
-<div class="main-container">
-  <div class="content">
-    <h2>Créer vos informations d'assurance</h2>
-    <p>Remplissez le formulaire ci-dessous pour créer vos informations d'assurance.</p>
+<!-- Main Content Section -->
+<div class="main-container bg-[#f2f2f2] pt-24 px-8 pb-12">
+  <div class="container mx-auto bg-white rounded-lg shadow-xl p-8">
+    <h2 class="text-3xl font-bold text-[#1c2b36]">Créer vos informations d'assurance</h2>
+    <p class="text-lg text-[#5e6c7e]">Remplissez le formulaire ci-dessous pour créer vos informations d'assurance.</p>
 
-    <div class="form-container">
-      <form method="post">
+    <div class="form-container mt-8">
+      <form method="post" class="space-y-6">
         {% csrf_token %}
         {% for field in form %}
           <div class="form-group">
-            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-            {{ field }}
+            <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-[#5e6c7e]">{{ field.label }}</label>
+            <div class="mt-2">
+              {{ field }}
+            </div>
             {% if field.errors %}
-              <span class="error">{{ field.errors|striptags }}</span>
+              <span class="error text-red-500 text-sm mt-2">{{ field.errors|striptags }}</span>
             {% endif %}
           </div>
         {% endfor %}
-        <button type="submit" class="btn-submit">Enregistrer</button>
+        <button type="submit" class="btn-submit w-full py-3 bg-[#00bfae] text-white rounded-md hover:bg-[#008f8f] transition duration-300">Enregistrer</button>
       </form>
     </div>
 
-    <div>
-      <a href="{% url 'app:user_infos' %}">Retour à mes informations personnelles</a>
+    <div class="mt-6">
+      <a href="{% url 'app:user_infos' %}" class="text-[#00bfae] hover:underline">Retour à mes informations personnelles</a>
     </div>
   </div>
 </div>

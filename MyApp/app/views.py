@@ -1,28 +1,19 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm
 from django.http import Http404
 from .form import CustomUserCreationForm, InsuranceInfosUpdateForm
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import login, authenticate, get_user_model
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView, UpdateView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from .models import InsuranceInfos
 
 
-class RegisterView(TemplateView):
+class RegisterView(CreateView):
+    model = get_user_model()
+    form_class = CustomUserCreationForm
     template_name = 'app/register.html'
-
-    def inscription(request):
-        if request.method == 'POST':
-            form = CustomUserCreationForm(request.POST)
-            if form.is_valid():
-                form.save()
-                return redirect('connexion')
-        else:
-            form = CustomUserCreationForm()
-        return render(request, 'app/register.html', {'form': form})
+    success_url = reverse_lazy('app:login')
 
 
 class LoginView(TemplateView):

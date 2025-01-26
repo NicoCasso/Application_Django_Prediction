@@ -35,6 +35,10 @@ INSTALLED_APPS = [
     # My Apps
     'app',
 
+    'tailwind',
+    'theme',
+    'django_browser_reload',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -51,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 ROOT_URLCONF = 'MyApp.urls'
@@ -134,3 +139,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'profil'  # ou vers une autre page après la connexion réussie
 LOGOUT_REDIRECT_URL = 'login'  # ou vers la page de connexion après la déconnexion
+
+# TailwindCSS settings
+TAILWIND_APP_NAME = 'theme'
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]

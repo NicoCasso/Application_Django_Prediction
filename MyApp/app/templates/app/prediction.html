@@ -3,20 +3,18 @@
 
 {% block content %}
 <!-- Sidebar Section -->
-<aside class="sidebar">
-    <div class="sidebar-content">
-        <div class="menu-item">
-            <a href="{% url 'app:home' %}">
-                <img src="{% static 'icon/home.png' %}" alt="Icône Accueil" height="20">
-                <span class="menu-text">Déconnexion</span>
-            </a>
-        </div>            
-        <div class="menu-item">
-            <a href="{% url 'app:profil' %}">
-                <img src="{% static 'icon/user.png' %}" alt="Icône Accueil" height="20">
-                <span class="menu-text">Profil</span>
-            </a>
-        </div> 
+{% block navbar %}
+    <nav class="bg-navy-600 text-white p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="space-x-6 flex items-center">
+                <a href="{% url 'app:home' %}" class="hover:text-[#00bfae] transition duration-300">Déconnexion</a>
+                <a href="{% url 'app:profil' %}" class="hover:text-[#00bfae] transition duration-300">Profil</a>
+                <a href="{% url 'app:user_infos' %}" class="hover:text-[#00bfae] transition duration-300">Mes informations</a>
+                <a href="{% url 'app:prediction' %}" class="hover:text-[#00bfae] transition duration-300">Mes démarches</a>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
         <!-- Menu Items -->
         <div class="menu-item">
             <a href="{% url 'app:user_infos' %}">
