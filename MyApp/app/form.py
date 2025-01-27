@@ -62,11 +62,10 @@ class CustomUserCreationForm(UserCreationForm):
 
 # Insurance Info Update Form
 class InsuranceInfosUpdateForm(forms.ModelForm):
-    # Fields for insurance info
     height = forms.FloatField(
-        label="Taille (cm)", min_value=50, max_value=300)
+        label="Taille (cm)", min_value=50, max_value=250)
     weight = forms.FloatField(
-        label="Poids (kg)", min_value=10, max_value=500)
+        label="Poids (kg)", min_value=30, max_value=250)
     smoker = forms.ChoiceField(label="Fumeur", choices=SMOKER_CHOICES)
     age = forms.IntegerField(label="Votre âge")
     sex = forms.ChoiceField(label="Genre", choices=SEX_CHOICES)

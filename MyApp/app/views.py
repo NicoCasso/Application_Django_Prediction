@@ -48,13 +48,28 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         context['insurance_infos'] = InsuranceInfos.objects.filter(user=self.request.user).first()
         return context
 
-
-class PredictionView(View):
+class PredictionView(LoginRequiredMixin, TemplateView):
     template_name = 'app/prediction.html'
 
-    def get(self, request):
-        return render(request, self.template_name)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        insurance_info = InsuranceInfos.objects.filter(user=self.request.user).first()
 
+        if insurance_info:
+            context['gender'] = insurance_info.get_sex_display()
+            context['region'] = insurance_info.get_region_display()
+            context['smoker'] = insurance_info.get_smoker_display()
+
+        context['insurance_infos'] = insurance_info
+        print(" ______________________________________________ ")
+        print(f"Insurance Infos: {context['insurance_infos']}")
+        print(f"Gender: {context['gender']}")
+        print(f"Region: {context['region']}")
+        print(f"Smoker: {context['smoker']}")
+        print(f"Prediction: {context['prediction']}")
+        print(" ______________________________________________ ")
+
+        return context
 
 class UserInfosView(LoginRequiredMixin, TemplateView):
     template_name = 'app/user_infos.html'
@@ -91,7 +106,6 @@ class UserInfosUpdateView(LoginRequiredMixin, UpdateView):
         else:
             form.instance.bmi = None
 
-        messages.success(self.request, "Vos informations ont été mises à jour avec succès.")
         return super().form_valid(form)
 
 

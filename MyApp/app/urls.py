@@ -17,7 +17,7 @@ urlpatterns = [
     path('logout', LogoutView.as_view(), name='logout'),
     path('prediction', specific_view.get_perdiction_page, name='prediction'),
 ]
-from .views import HomeView, RegisterView, LoginView, ProfileView, PredictionView
+
 
 
 # urlpatterns = [

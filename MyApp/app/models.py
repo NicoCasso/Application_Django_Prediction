@@ -23,8 +23,7 @@ class InsuranceInfos(models.Model):
             return 'Homme'
         elif self.sex == 'female':
             return 'Femme'
-        return self.sex.capitalize()
-
+        
     def get_region_display(self):
         if self.region == 'southwest':
             return 'Sud-Ouest'
@@ -34,7 +33,6 @@ class InsuranceInfos(models.Model):
             return 'Sud-Est'
         elif self.region == 'northwest':
             return 'Nord-Ouest'
-        return self.region.capitalize()
 
     def get_full_name(self):
         return f"{self.user.first_name.capitalize()} {self.user.last_name.capitalize()}" if self.user else "Utilisateur inconnu"

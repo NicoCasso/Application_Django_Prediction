@@ -6,45 +6,11 @@
 
 {% block content %}
 
-    <!-- Sidebar Section -->
-    {% include 'includes/sidebar_section.html'%}
-    
-    <br/>
-
-    <div style="border: solid blue; width:75%; margin: auto; text-align: center;">
-        <h2 style="color:blue;"> Page en cours de développement ... </h2> 
-        <center>
-            <table style="border: 1px solid blue; text-align: center;">
-                <thead>
-                    <tr> 
-                        <th>variable:</th><th>valeur:</th> 
-                    </tr> 
-                </thead>
-                <tbody>
-                    <tr> <td>request</td> <td> {{ request }}</td> </tr> 
-                    <tr> <td>user</td> <td> {{ user }}</td> </tr> 
-                    <tr> <td>test</td> <td> en cours </td> </tr> 
-                </tbody>
-            </table>
-        </center>
-        <br/>
-    </div>
-    
-    <br/>
-
-    {% comment %}
-        {% include 'includes/insuranceInfos_create.html'%}
-        {% include 'includes/insuranceInfos_update.html'%}
-    {% endcomment %}
-
-    {% include 'includes/prediction_create.html'%}
-
 <!-- Navbar Section -->
 {% include 'includes/navbar_section.html' %}
 
 <!-- Main Content Section -->
 <div class="main-container bg-[#f2f2f2] pt-8 px-auto pb-12">
-    <!-- Utilisation de la grille pour diviser en deux colonnes -->
     <div class="grid grid-cols-2 gap-8 container mx-auto">
         <!-- Partie "Mes informations" -->
         <div class="bg-white rounded-lg shadow-xl p-8">
@@ -87,32 +53,25 @@
         <!-- Partie "Prédiction" -->
         <div class="bg-white rounded-lg shadow-xl p-8">
             <h1 class="text-3xl font-semibold mb-6 text-[#1c2b36]">Estimation d'assurance santé</h1>
-            <!-- Contenu de prédiction ici -->
             <p>Vous pouvez estimer le coût de votre assurance santé en fonction de vos informations personnelles.</p>
+
             <div class="mt-6 flex justify-between">
-                <button id="estimateButton" class="bg-[#00bfae] text-white py-2 px-6 rounded-lg hover:bg-[#008f8f] transition duration-300 mx-auto">
-                    Lancer l'estimation
-                </button>
+                <form method="post" id="predictionForm">
+                    {% csrf_token %}
+                    <button id="estimateButton" class="bg-[#00bfae] text-white py-2 px-6 rounded-lg hover:bg-[#008f8f] transition duration-300 mx-auto">
+                        Lancer l'estimation
+                    </button>
+                </form>
             </div>
-        
-            <!-- Affichage de l'estimation après prédiction -->
-            <div id="result" class="mt-6 hidden">
-                <p class="text-xl font-semibold text-[#1c2b36]">L'estimation annuelle de votre prime d'assurance santé s'élève à <span id="estimatedPrice" class="text-[#00bfae]">[montant]</span>.</p>
+            
+            {% if prediction %}
+            <div class="mt-6" id="result">
+                <div style="border: solid; margin: right; width: 95%; text-align: center; padding: 16px;">
+                    <p class="box text-xl">Prédiction : <strong>{{ prediction }} $</strong></p>
+                </div>
             </div>
+            {% endif %}
         </div>
-        
-        <script>
-            document.getElementById('estimateButton').addEventListener('click', function() {
-                // Exemple d'appel à une fonction pour obtenir l'estimation via AJAX
-                // Remplacez cela par l'appel réel à votre modèle de prédiction
-                let estimatedPrice = 0;  // Exemple de prix retourné par votre modèle
-        
-                document.getElementById('result').classList.remove('hidden');
-                document.getElementById('estimatedPrice').textContent = estimatedPrice + ' €';
-            });
-        </script>
-        
     </div>
 </div>
-
 {% endblock %}
