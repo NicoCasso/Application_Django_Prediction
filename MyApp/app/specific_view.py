@@ -4,7 +4,7 @@ from .models import InsuranceInfos, Predictions
 
 from predictor import Predictor
 
-def get_perdiction_page(request):
+def get_prediction_page(request):
     insurance_infos = InsuranceInfos.objects.filter(user=request.user).first()
     if insurance_infos == None :
         return Http404("Aucune information trouvée pour cet utilisateur.")
