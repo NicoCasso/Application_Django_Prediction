@@ -1,8 +1,6 @@
-# forms.py
-
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import InsuranceInfos
+from .models import InsuranceInfos, Predictions
 
 # Constants for choices
 SEX_CHOICES = [
@@ -26,7 +24,6 @@ SMOKER_CHOICES = [
 class CustomUserCreationForm(UserCreationForm):
     password1 = forms.CharField(
         label="Mot de passe",
-        label="Mot de passe",
         strip=False,
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
     )
@@ -35,32 +32,8 @@ class CustomUserCreationForm(UserCreationForm):
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
         strip=False,
     )
-    age = forms.IntegerField(
-        label="Âge",
-        required=True,
-    )
-    sexe = forms.ChoiceField(
-        label="Sexe",
-        choices=[('M', 'Homme'), ('F', 'Femme')],
-        required=True,
-    )
-    nombre_enfants = forms.IntegerField(
-        label="Nombre d'enfants",
-        required=True,
-    )
-    taille = forms.IntegerField(
-        label="Taille (en cm)",
-        required=True,
-
-    )
-    poids = forms.IntegerField(
-        label="Poids (en kg)",
-        required=True,
-    )
-
-    # Custom fields for registration
     username = forms.CharField(
-        label="Nom d'utilisateur",  # Changer l'étiquette
+        label="Nom d'utilisateur", 
         max_length=150,
         required=True,
         widget=forms.TextInput(attrs={'placeholder': 'Entrez votre nom d\'utilisateur'})
@@ -123,3 +96,10 @@ class InsuranceInfosUpdateForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
+
+
+class Predictions_Form(forms.Form):
+    class Meta:
+        model= Predictions
+        fields = ['charges']
+
