@@ -5,9 +5,21 @@ from .models import InsuranceInfos, Predictions
 from predictor import Predictor
 
 def get_prediction_page(request):
+    view_helper = {
+        'request_type' : type(request),
+        'user_type' : type (request.user)
+        }
+
     insurance_infos = InsuranceInfos.objects.filter(user=request.user).first()
     if insurance_infos == None :
-        return Http404("Aucune information trouvée pour cet utilisateur.")
+        insurance_infos = InsuranceInfos()
+        insurance_infos.age = 25
+        insurance_infos.sex = "male"
+        insurance_infos.bmi = 25
+        insurance_infos.children = 0
+        insurance_infos.smoker = False
+        insurance_infos.region = "northeast"
+        #return Http404("Aucune information trouvée pour cet utilisateur.")
 
     predictor = Predictor("serialized_model.pkl")
 
@@ -46,7 +58,8 @@ def get_prediction_page(request):
     
     context = {
         'insurance_infos' : insurance_infos,
-        'prediction' : float(int(prediction))
+        'prediction' : float(int(prediction)),
+        'view_helper' : view_helper
     }
 
     return render(request = request, template_name='app/prediction.html', context= context)

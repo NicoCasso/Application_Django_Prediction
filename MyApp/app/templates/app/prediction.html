@@ -21,9 +21,11 @@
                     </tr> 
                 </thead>
                 <tbody>
-                    <tr> <td>request</td> <td> {{ request }}</td> </tr> 
+                    <tr> <td>request</td> <td> {{ request }}</td> </tr>  
+                    <tr> <td>request type</td> <td> {{ view_helper['request_type'] }}</td> </tr>  
                     <tr> <td>user</td> <td> {{ user }}</td> </tr> 
-                    <tr> <td>test</td> <td> en cours </td> </tr> 
+                    <tr> <td>user type</td> <td> {{ view_helper['user_type'] }}</td> </tr>  
+                    <tr> <td> test </td> <td> en cours </td> </tr> 
                 </tbody>
             </table>
         </center>
