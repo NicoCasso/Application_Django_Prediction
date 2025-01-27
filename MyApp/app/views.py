@@ -61,13 +61,6 @@ class PredictionView(LoginRequiredMixin, TemplateView):
             context['smoker'] = insurance_info.get_smoker_display()
 
         context['insurance_infos'] = insurance_info
-        print(" ______________________________________________ ")
-        print(f"Insurance Infos: {context['insurance_infos']}")
-        print(f"Gender: {context['gender']}")
-        print(f"Region: {context['region']}")
-        print(f"Smoker: {context['smoker']}")
-        print(f"Prediction: {context['prediction']}")
-        print(" ______________________________________________ ")
 
         return context
 

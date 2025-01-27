@@ -15,7 +15,8 @@ urlpatterns = [
     path('update_infos/', UserInfosUpdateView.as_view(), name='update_infos'),
     path('create_insurance_infos/', InsuranceInfosCreateView.as_view(), name='create_insurance_infos'),
     path('logout', LogoutView.as_view(), name='logout'),
-    path('prediction', specific_view.get_perdiction_page, name='prediction'),
+    path('prediction', PredictionView.as_view(), name='prediction'),
+    #path('prediction', specific_view.get_perdiction_page, name='prediction'),
 ]
 
 
