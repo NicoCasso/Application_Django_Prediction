@@ -26,7 +26,7 @@ class LoginView(TemplateView):
             if user is not None:
                 login(request, user)
 
-                if hasattr(user, 'insuranceinfos'):
+                if InsuranceInfos.objects.filter(user=self.request.user).exists():
                     return redirect('app:profil')
                 else:
                     return redirect('app:create_insurance_infos')
