@@ -26,6 +26,7 @@ SMOKER_CHOICES = [
 class CustomUserCreationForm(UserCreationForm):
     password1 = forms.CharField(
         label="Mot de passe",
+        label="Mot de passe",
         strip=False,
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
     )
@@ -33,6 +34,28 @@ class CustomUserCreationForm(UserCreationForm):
         label="Confirmation ",
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
         strip=False,
+    )
+    age = forms.IntegerField(
+        label="Âge",
+        required=True,
+    )
+    sexe = forms.ChoiceField(
+        label="Sexe",
+        choices=[('M', 'Homme'), ('F', 'Femme')],
+        required=True,
+    )
+    nombre_enfants = forms.IntegerField(
+        label="Nombre d'enfants",
+        required=True,
+    )
+    taille = forms.IntegerField(
+        label="Taille (en cm)",
+        required=True,
+
+    )
+    poids = forms.IntegerField(
+        label="Poids (en kg)",
+        required=True,
     )
 
     # Custom fields for registration
