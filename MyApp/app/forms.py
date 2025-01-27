@@ -26,6 +26,7 @@ class InsuranceInfos_Form(forms.ModelForm):
         ) 
     }
 
+# comment for commit
 class Predictions_Form(forms.Form):
     class Meta:
         model= Predictions
