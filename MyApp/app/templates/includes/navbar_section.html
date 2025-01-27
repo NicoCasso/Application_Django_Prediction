@@ -1,0 +1,16 @@
+
+{% load static %}
+
+<!-- Navbar Section -->
+{% block navbar %}
+    <nav class="bg-navy-600 text-white p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="space-x-6 flex items-center">
+                <a href="{% url 'app:home' %}" class="hover:text-[#00bfae] transition duration-300">Déconnexion</a>
+                <a href="{% url 'app:profil' %}" class="hover:text-[#00bfae] transition duration-300">Profil</a>
+                <a href="{% url 'app:user_infos' %}" class="hover:text-[#00bfae] transition duration-300">Mes informations</a>
+                <a href="{% url 'app:prediction' %}" class="hover:text-[#00bfae] transition duration-300">Mes démarches</a>
+            </div>
+        </div>
+    </nav>
+{% endblock %}
