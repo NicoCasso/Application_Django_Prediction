@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import InsuranceInfos, Predictions
+from django.core.exceptions import ValidationError
 
 # Constants for choices
 SEX_CHOICES = [
@@ -76,10 +77,10 @@ class InsuranceInfosUpdateForm(forms.ModelForm):
         model = InsuranceInfos
         fields = ['age', 'sex', 'smoker', 'region', 'children', 'height', 'weight']
         widgets = {
-            'age': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Votre âge', 'min': 0, 'max': 120}),
+            'age': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Votre âge'}),
             'sex': forms.Select(attrs={'class': 'form-control'}, choices=SEX_CHOICES),
             'region': forms.Select(attrs={'class': 'form-control'}, choices=REGIONS_CHOICES),
-            'children': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Nombre d\'enfants', 'min': 0, 'max': 20}),
+            'children': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Nombre d\'enfants'}),
             'height': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Votre taille en cm'}),
             'weight': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Votre poids en kg'}),
             'smoker': forms.Select(attrs={'class': 'form-control'}),
@@ -95,6 +96,22 @@ class InsuranceInfosUpdateForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
+    
+    def clean_children(self):
+        children = self.cleaned_data.get('children')
+
+        if children < 0 or children > 20:
+            raise ValidationError("Le nombre d'enfants doit être compris entre 0 et 20.")
+        
+        return children
+    
+    def clean_age(self):
+        age = self.cleaned_data.get('age')
+
+        if age < 18 or age > 120:
+            raise ValidationError("L'âge' doit être compris entre 18 et 120.")
+        
+        return age
 
 
 class Predictions_Form(forms.Form):

@@ -11,16 +11,6 @@ def get_perdiction_page(request):
 
     predictor = Predictor("serialized_model.pkl")
 
-    print(" ______________________________________________ ")
-    print("|")
-    print(f"|        insurance_infos.age : { insurance_infos.age}")
-    print(f"|        insurance_infos.sex: { insurance_infos.sex}")
-    print(f"|        insurance_infos.bmi: { insurance_infos.bmi}")
-    print(f"|        insurance_infos.children: { insurance_infos.children}")
-    print(f"|        insurance_infos.smoker: { insurance_infos.smoker}")
-    print(f"|        region=insurance_infos.region: { insurance_infos.region}")
-    print("|______________________________________________ ")
-
     prediction = predictor.predict(
         age=insurance_infos.age, 
         sex=insurance_infos.sex, 

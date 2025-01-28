@@ -1,11 +1,12 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, Http404
 from django.contrib.auth import login, authenticate, get_user_model
 from django.contrib import messages
 from django.views.generic import TemplateView, UpdateView, CreateView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from .models import InsuranceInfos
+from .models import InsuranceInfos, Predictions
 from .form import CustomUserCreationForm, InsuranceInfosUpdateForm
+from predictor import Predictor
 
 class RegisterView(CreateView):
     model = get_user_model()
@@ -48,21 +49,63 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         context['insurance_infos'] = InsuranceInfos.objects.filter(user=self.request.user).first()
         return context
 
+
 class PredictionView(LoginRequiredMixin, TemplateView):
     template_name = 'app/prediction.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        insurance_info = InsuranceInfos.objects.filter(user=self.request.user).first()
+        insurance_infos = InsuranceInfos.objects.filter(user=self.request.user).first()
 
-        if insurance_info:
-            context['gender'] = insurance_info.get_sex_display()
-            context['region'] = insurance_info.get_region_display()
-            context['smoker'] = insurance_info.get_smoker_display()
+        if not insurance_infos:
+            raise Http404("Aucune information trouvée pour cet utilisateur.")
 
-        context['insurance_infos'] = insurance_info
+        # Initialisation du prédicteur
+        predictor = Predictor("serialized_model.pkl")
+        prediction = predictor.predict(
+            age=insurance_infos.age,
+            sex=insurance_infos.sex,
+            bmi=insurance_infos.bmi,
+            children=insurance_infos.children,
+            smoker="yes" if insurance_infos.smoker else "no",
+            region=insurance_infos.region
+        )
+
+        # Passer les informations au contexte
+        context['insurance_infos'] = insurance_infos
+        context['prediction'] = float(int(prediction))
 
         return context
+
+    def post(self, request, *args, **kwargs):
+        insurance_infos = InsuranceInfos.objects.filter(user=self.request.user).first()
+
+        if not insurance_infos:
+            raise Http404("Aucune information trouvée pour cet utilisateur.")
+
+        # Initialisation du prédicteur
+        predictor = Predictor("serialized_model.pkl")
+        prediction = predictor.predict(
+            age=insurance_infos.age,
+            sex=insurance_infos.sex,
+            bmi=insurance_infos.bmi,
+            children=insurance_infos.children,
+            smoker="yes" if insurance_infos.smoker else "no",
+            region=insurance_infos.region
+        )
+
+        # Création du modèle Predictions
+        prediction_model = Predictions(
+            user=request.user,
+            info=insurance_infos,
+            charges=prediction
+        )
+
+        # Enregistrement dans la base de données
+        prediction_model.save()
+        messages.success(request, "Votre prédiction a été enregistrée avec succès !")
+        return redirect('app:prediction')
+
 
 class UserInfosView(LoginRequiredMixin, TemplateView):
     template_name = 'app/user_infos.html'
