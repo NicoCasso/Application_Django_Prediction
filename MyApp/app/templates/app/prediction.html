@@ -22,9 +22,7 @@
                 </thead>
                 <tbody>
                     <tr> <td>request</td> <td> {{ request }}</td> </tr>  
-                    <tr> <td>request type</td> <td> {{ view_helper['request_type'] }}</td> </tr>  
                     <tr> <td>user</td> <td> {{ user }}</td> </tr> 
-                    <tr> <td>user type</td> <td> {{ view_helper['user_type'] }}</td> </tr>  
                     <tr> <td> test </td> <td> en cours </td> </tr> 
                 </tbody>
             </table>
@@ -39,6 +37,9 @@
         {% include 'includes/insuranceInfos_update.html'%}
     {% endcomment %}
 
-    {% include 'includes/prediction_create.html'%}
+    {% comment %}
+        {% include 'includes/prediction_simplest.html'%}
+    {% endcomment %}
+    {% include 'includes/prediction_with_template.html'%}
 
 {% endblock %}

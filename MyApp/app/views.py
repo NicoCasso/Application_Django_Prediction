@@ -30,6 +30,8 @@ class RegisterView(TemplateView):
 class LoginView(TemplateView):
     template_name = 'app/login.html'
 
+    
+
     def post(self, request):
         if request.method == 'POST':
             username = request.POST.get('username')
