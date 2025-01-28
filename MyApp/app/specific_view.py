@@ -105,6 +105,9 @@ class PredictionTemplateView(TemplateView):
 
         data_changed = False
         data = cast(InsuranceInfos, info_form.instance )
+        # do the same thing
+        #data:InsuranceInfos = info_form.instance
+
         for fieldname in request_infos.keys():
             data_changed |= update_instance(fieldname, request_infos[fieldname], data)
 
