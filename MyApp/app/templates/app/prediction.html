@@ -27,9 +27,34 @@
                 </thead>
                 <tbody>
                     <tr class="border-b hover:bg-[#f7f7f7] transition duration-200">
-                        <td class="px-4 py-2">{{ gender }}</td>
-                        <td class="px-4 py-2">{{ insurance_infos.age }}</td>
-                        <td class="px-4 py-2">{{ region }}</td>
+                        <td>
+                            <input 
+                        type="text" 
+                        id="gender" 
+                        name="gender" 
+                        class="w-full border-gray-300 rounded-md shadow-sm focus:border-[#00bfae] focus:ring-[#00bfae]" 
+                        value="{{ gender }}"
+                             />
+                        </td>
+                        <td>
+                            <input 
+                                type="number" 
+                                id="age" 
+                                name="age" 
+                                class="w-full border-gray-300 rounded-md shadow-sm focus:border-[#00bfae] focus:ring-[#00bfae]" 
+                                value="{{ insurance_infos.age }}"
+                            />
+                        </td>
+                        <td>
+                            <input 
+                                type="text" 
+                                id="region" 
+                                name="region" 
+                                class="w-full border-gray-300 rounded-md shadow-sm focus:border-[#00bfae] focus:ring-[#00bfae]" 
+                                value="{{ region }}"
+                            />
+        
+                        </td>
                     </tr>
                 </tbody>
                 <thead class="bg-[#00bfae]">
@@ -39,14 +64,48 @@
                         <th class="px-4 py-2 text-left text-white font-semibold">IMC</th>
                     </tr>
                 </thead>
+                <div>
+                </div>
                 <tbody>
                     <tr class="border-b hover:bg-[#f7f7f7] transition duration-200">
-                        <td class="px-4 py-2">{{ insurance_infos.children }}</td>
-                        <td class="px-4 py-2">{{ smoker }}</td>
-                        <td class="px-4 py-2">{{ insurance_infos.bmi }}</td>
+                        <td>
+                            <input 
+                                type="number" 
+                                id="children" 
+                                name="children" 
+                                class="w-full border-gray-300 rounded-md shadow-sm focus:border-[#00bfae] focus:ring-[#00bfae]" 
+                                value="{{ insurance_infos.children }}"
+                            />
+                        </td>
+                        <td>
+                            <select 
+                                id="smoker" 
+                                name="smoker" 
+                                class="w-full border-gray-300 rounded-md shadow-sm focus:border-[#00bfae] focus:ring-[#00bfae]"
+                                >
+                                <option value="Oui" {% if smoker == "Oui" %}selected{% endif %}>Oui</option>
+                                <option value="Non" {% if smoker == "Non" %}selected{% endif %}>Non</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input 
+                                type="number" 
+                                id="bmi" 
+                                name="bmi" 
+                                step="0.1" 
+                                class="w-full border-gray-300 rounded-md shadow-sm focus:border-[#00bfae] focus:ring-[#00bfae]" 
+                                value="{{ insurance_infos.bmi }}"
+                            />
+                        </td>
                     </tr>
                 </tbody>
             </table>
+            <!-- Boutons d'action -->
+            <div class="mt-6 flex justify-end gap-4">
+                <button type="submit" class="btn-submit w-full py-3 bg-[#00bfae] text-white rounded-md hover:bg-[#008f8f] transition duration-300">
+                    Mettre à jour
+                  </button>
+            </div>
         </div>
 
         <!-- Partie "Prédiction" -->

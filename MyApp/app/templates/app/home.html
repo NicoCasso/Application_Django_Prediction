@@ -11,8 +11,8 @@
     <nav class="bg-navy-600 text-white p-4 shadow-md">
         <div class="container mx-auto flex justify-between items-center">
             <div class="menu-items flex space-x-6">
-                <a href="register" class="hover:bg-navy-500 p-2 rounded-md">S'inscrire</a>
-                <a href="login" class="hover:bg-navy-500 p-2 rounded-md">Se connecter</a>
+                <a href="{% url 'app:register' %}" class="hover:bg-navy-500 p-2 rounded-md">S'inscrire</a>
+                <a href="{% url 'app:login' %}" class="hover:bg-navy-500 p-2 rounded-md">Se connecter</a>
             </div>
         </div>
     </nav>
