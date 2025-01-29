@@ -35,7 +35,6 @@ class LoginView(TemplateView):
     """View for user login."""
     template_name = 'app/login.html'
 
-    
 
     def post(self, request):
         """Handles POST requests for login, authenticates user."""

@@ -55,4 +55,5 @@ class Predictions(models.Model):
     
 # class Customer (models.Model):
 #     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+#     info = models.ForeignKey(InsuranceInfos, on_delete=models.CASCADE, null=True)
 #     customer_number = models.CharField(max_length=10, unique=True, default=uuid.uuid4().hex[:10].upper())
