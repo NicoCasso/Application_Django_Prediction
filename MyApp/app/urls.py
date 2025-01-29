@@ -14,6 +14,6 @@ urlpatterns = [
     path('create_insurance_infos/', InsuranceInfosCreateView.as_view(), name='create_insurance_infos'),
     path('logout', LogoutView.as_view(), name='logout'),
     #path('prediction', get_prediction_page, name='prediction'),
-    path('prediction', PredictionTemplateView.as_view(), name='prediction'),
+    path('prediction/', PredictionTemplateView.as_view(), name='prediction'),
     #path('prediction/', PredictionView.as_view(), name='prediction'),
 ]
