@@ -5,73 +5,75 @@ from django.core.exceptions import ValidationError
 
 # Constants for choices
 SEX_CHOICES = [
-    ('male', 'Homme'),
-    ('female', 'Femme'),
+    ('male', 'Homme'),  # Male
+    ('female', 'Femme'),  # Female
 ]
 
 REGIONS_CHOICES = [
-    ('southwest', 'Sud-Ouest'),
-    ('northeast', 'Nord-Est'),
-    ('southeast', 'Sud-Est'),
-    ('northwest', 'Nord-Ouest'),
+    ('southwest', 'Sud-Ouest'),  # Southwest region
+    ('northeast', 'Nord-Est'),  # Northeast region
+    ('southeast', 'Sud-Est'),  # Southeast region
+    ('northwest', 'Nord-Ouest'),  # Northwest region
 ]
 
 SMOKER_CHOICES = [
-    (True, 'Oui'),
-    (False, 'Non'),
+    (True, 'Oui'),  # Yes
+    (False, 'Non'),  # No
 ]
 
 # User Registration Form
 class CustomUserCreationForm(UserCreationForm):
+    """Form for creating a new user with custom fields."""
     password1 = forms.CharField(
-        label="Mot de passe",
+        label="Mot de passe",  # Password
         strip=False,
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
     )
     password2 = forms.CharField(
-        label="Confirmation ",
+        label="Confirmation",  # Password confirmation
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
         strip=False,
     )
     username = forms.CharField(
-        label="Nom d'utilisateur", 
+        label="Nom d'utilisateur",  # Username
         max_length=150,
         required=True,
         widget=forms.TextInput(attrs={'placeholder': 'Entrez votre nom d\'utilisateur'})
     )
     last_name = forms.CharField(
-        label="Nom",
+        label="Nom",  # Last name
         max_length=30,
         required=True,
         widget=forms.TextInput(attrs={'placeholder': 'Entrez votre nom'})
     )
     first_name = forms.CharField(
-        label="Prénom",
+        label="Prénom",  # First name
         max_length=30,
         required=True,
         widget=forms.TextInput(attrs={'placeholder': 'Entrez votre prénom'})
     )
     email = forms.EmailField(
-        label="Adresse email",
+        label="Adresse email",  # Email address
         max_length=254,
         required=True,
         widget=forms.EmailInput(attrs={'placeholder': 'Entrez votre adresse email'})
     )
 
     class Meta(UserCreationForm.Meta):
-        fields = UserCreationForm.Meta.fields + ("last_name","first_name", "email", "password1", "password2")
+        fields = UserCreationForm.Meta.fields + ("last_name", "first_name", "email", "password1", "password2")
 
 # Insurance Info Update Form
 class InsuranceInfosUpdateForm(forms.ModelForm):
+    """Form for updating insurance information."""
     height = forms.FloatField(
-        label="Taille (cm)", min_value=50, max_value=250)
+        label="Taille (cm)", min_value=50, max_value=250)  # Height in cm
     weight = forms.FloatField(
-        label="Poids (kg)", min_value=30, max_value=250)
-    smoker = forms.ChoiceField(label="Fumeur", choices=SMOKER_CHOICES)
-    age = forms.IntegerField(label="Votre âge")
-    sex = forms.ChoiceField(label="Genre", choices=SEX_CHOICES)
-    region = forms.ChoiceField(label="Région", choices=REGIONS_CHOICES)
-    children = forms.IntegerField(label="Nombre d'enfants")
+        label="Poids (kg)", min_value=30, max_value=250)  # Weight in kg
+    smoker = forms.ChoiceField(label="Fumeur", choices=SMOKER_CHOICES)  # Smoker choice
+    age = forms.IntegerField(label="Votre âge")  # Age
+    sex = forms.ChoiceField(label="Genre", choices=SEX_CHOICES)  # Gender
+    region = forms.ChoiceField(label="Région", choices=REGIONS_CHOICES)  # Region
+    children = forms.IntegerField(label="Nombre d'enfants")  # Number of children
 
     class Meta:
         model = InsuranceInfos
@@ -87,9 +89,10 @@ class InsuranceInfosUpdateForm(forms.ModelForm):
         }
 
     def save(self, commit=True):
+        """Override save method to calculate BMI and save the instance."""
         instance = super().save(commit=False)
 
-        # Calcul du BMI si les deux informations sont présentes
+        # Calculate BMI if both height and weight are provided
         if self.cleaned_data.get('height') and self.cleaned_data.get('weight'):
             instance.bmi = round(self.cleaned_data['weight'] / ((self.cleaned_data['height'] / 100) ** 2), 2)
 
@@ -98,24 +101,26 @@ class InsuranceInfosUpdateForm(forms.ModelForm):
         return instance
     
     def clean_children(self):
+        """Validate the number of children."""
         children = self.cleaned_data.get('children')
 
         if children < 0 or children > 20:
-            raise ValidationError("Le nombre d'enfants doit être compris entre 0 et 20.")
+            raise ValidationError("Le nombre d'enfants doit être compris entre 0 et 20.")  # Children must be between 0 and 20
         
         return children
     
     def clean_age(self):
+        """Validate the age."""
         age = self.cleaned_data.get('age')
 
         if age < 18 or age > 120:
-            raise ValidationError("L'âge' doit être compris entre 18 et 120.")
+            raise ValidationError("L'âge' doit être compris entre 18 et 120.")  # Age must be between 18 and 120
         
         return age
 
-
+# Predictions Form
 class Predictions_Form(forms.Form):
+    """Form for storing insurance prediction charges."""
     class Meta:
-        model= Predictions
-        fields = ['charges']
-
+        model = Predictions
+        fields = ['charges']  # Only the charges field is needed for prediction
