@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import InsuranceInfos
+from .models import InsuranceInfos, Predictions
 
 REGIONS_CHOICES = [
     ('southwest', 'Sud-Ouest'),
@@ -92,3 +92,16 @@ class InsuranceInfosUpdateForm(forms.ModelForm):
             instance.save()
             
         return instance
+    
+#______________________________________________________________________________
+#
+# region imported forms.py
+#______________________________________________________________________________
+
+class PredictionsForm(forms.ModelForm):
+    class Meta():
+        fields = ['charges']
+        model= Predictions
+
+    charges = forms.IntegerField( label="Prime d'assurance" )
+    widgets = { 'charges' : forms.NumberInput(attrs={'class': 'form-control'}) }
