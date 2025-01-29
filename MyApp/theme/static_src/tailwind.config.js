@@ -42,7 +42,19 @@ module.exports = {
         // '../../**/*.py'
     ],
     theme: {
-        extend: {},
+        extend: {
+            colors: {
+                'navy-100': '#e0f1f1',
+                'navy-200': '#b4d5d5',
+                'navy-300': '#8bbaba',
+                'navy-400': '#5b9f9f',
+                'navy-500': '#2b8484',
+                'navy-600': '#1c2b36',  // Bleu foncé
+                'navy-700': '#14222a',
+                'navy-800': '#0d1a1f',
+                'navy-900': '#0a1417',
+              },
+        },
     },
     plugins: [
         /**

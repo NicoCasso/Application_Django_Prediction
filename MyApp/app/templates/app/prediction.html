@@ -2,35 +2,79 @@
 
 {% load static %}
 
-{% block title %} Page principale pour les prédictions {% endblock %}
+{% block title %}Page principale pour les prédictions{% endblock %}
 
 {% block content %}
 
-    <!-- Sidebar Section -->
-    {% include 'includes/sidebar_section.html'%}
-    
-    <br/>
+<!-- Navbar Section -->
+{% include 'includes/navbar_section.html' %}
 
-    <div style="border: solid blue; width:75%; margin: auto; text-align: center;">
-        <h2 style="color:blue;"> Page en cours de développement ... </h2> 
-        <center>
-            <table style="border: 1px solid blue; text-align: center;">
-                <thead>
-                    <tr> 
-                        <th>variable:</th><th>valeur:</th> 
-                    </tr> 
+<!-- Main Content Section -->
+<div class="main-container bg-[#f2f2f2] pt-8 px-auto pb-12">
+    <div class="grid grid-cols-2 gap-8 container mx-auto">
+
+        <!-- Partie "Mes informations" -->
+        <div class="bg-white rounded-lg shadow-xl p-8">
+            <h1 class="text-3xl font-semibold mb-6 text-[#1c2b36]">Mes informations</h1>
+            <h3 class="text-2xl font-semibold mb-4 text-[#1c2b36]">Informations complémentaires</h3>
+
+            <table class="min-w-full table-auto border-collapse mb-8">
+                <thead class="bg-[#00bfae]">
+                    <tr>
+                        <th class="px-4 py-2 text-left text-white font-semibold">Genre</th>
+                        <th class="px-4 py-2 text-left text-white font-semibold">Âge</th>
+                        <th class="px-4 py-2 text-left text-white font-semibold">Région</th>
+                    </tr>
                 </thead>
-                <tbody>
+                <tbody>          
+                    <tr class="border-b hover:bg-[#f7f7f7] transition duration-200">
+                        <td class="px-4 py-2">{{ gender }}</td>
+                        <td class="px-4 py-2">{{ insurance_infos.age }}</td>
+                        <td class="px-4 py-2">{{ region }}</td>
+                    </tr>
+                    {% comment %}
                     <tr> <td>request</td> <td> {{ request }}</td> </tr>  
                     <tr> <td>user</td> <td> {{ user }}</td> </tr> 
                     <tr> <td> test </td> <td> en cours </td> </tr> 
+                    {% endcomment %}
+                </tbody>
+                <thead class="bg-[#00bfae]">
+                    <tr>
+                        <th class="px-4 py-2 text-left text-white font-semibold">Nombre d'enfants</th>
+                        <th class="px-4 py-2 text-left text-white font-semibold">Fumeur</th>
+                        <th class="px-4 py-2 text-left text-white font-semibold">IMC</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b hover:bg-[#f7f7f7] transition duration-200">
+                        <td class="px-4 py-2">{{ insurance_infos.children }}</td>
+                        <td class="px-4 py-2">{{ smoker }}</td>
+                        <td class="px-4 py-2">{{ insurance_infos.bmi }}</td>
+                    </tr>
                 </tbody>
             </table>
-        </center>
-        <br/>
+        </div>
+
+        <!-- Partie "Prédiction" -->
+        <div class="bg-white rounded-lg shadow-xl p-8">
+            <h1 class="text-3xl font-semibold mb-6 text-[#1c2b36]">Estimation d'assurance santé</h1>
+            <p>Vous pouvez estimer le coût de votre assurance santé en fonction de vos informations personnelles.</p>
+
+            <div class="mt-6 border rounded-lg p-6 bg-white shadow-md text-center">
+                <p class="text-xl font-semibold text-[#1c2b36]">Prédiction : <strong class="text-[#00bfae]">{{ prediction }} $</strong></p>
+                <div class="mt-4 text-center">
+                    <form method="post">
+                        {% csrf_token %}
+                        <button id="estimateButton" class="bg-[#00bfae] text-white py-3 px-8 rounded-lg hover:bg-[#008f8f] transition duration-300 focus:outline-none focus:ring-2 focus:ring-[#00bfae] focus:ring-opacity-50">
+                            Enregistrer
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
     </div>
-    
-    <br/>
+</div>
 
     {% comment %}
         {% include 'includes/insuranceInfos_create.html'%}
@@ -39,7 +83,8 @@
 
     {% comment %}
         {% include 'includes/prediction_simplest.html'%}
+        {% include 'includes/prediction_with_template.html'%}
     {% endcomment %}
-    {% include 'includes/prediction_with_template.html'%}
+    
 
 {% endblock %}

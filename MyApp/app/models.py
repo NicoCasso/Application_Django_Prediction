@@ -5,12 +5,12 @@ import uuid
 class InsuranceInfos(models.Model):
     age = models.IntegerField()
     sex = models.CharField(max_length=10)
-    bmi = models.FloatField()
+    bmi = models.FloatField(null=True, blank=True)
     children = models.IntegerField()
     smoker = models.BooleanField()
     region = models.CharField(max_length=100)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
+    #user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='insurance_info')
 
     def __str__(self):
         return f"{self.user.username}" if self.user else "Unknown User"
@@ -23,8 +23,7 @@ class InsuranceInfos(models.Model):
             return 'Homme'
         elif self.sex == 'female':
             return 'Femme'
-        return self.sex.capitalize()
-
+        
     def get_region_display(self):
         if self.region == 'southwest':
             return 'Sud-Ouest'
@@ -34,7 +33,6 @@ class InsuranceInfos(models.Model):
             return 'Sud-Est'
         elif self.region == 'northwest':
             return 'Nord-Ouest'
-        return self.region.capitalize()
 
     def get_full_name(self):
         return f"{self.user.first_name.capitalize()} {self.user.last_name.capitalize()}" if self.user else "Utilisateur inconnu"

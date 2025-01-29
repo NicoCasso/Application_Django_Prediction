@@ -6,77 +6,82 @@
 
 {% block content %}
 
-    <!-- Sidebar Section -->
-    {% include 'includes/sidebar_section.html'%}
+<!-- Navbar Section -->
+{% include 'includes/navbar_section.html' %}
 
-    <!-- Main Content Section -->
-    <div class="main-container">
-        <div class="content">
-            <h1 class="title">Mes informations</h1>
-            
-            <!-- Informations personnelles -->
-            <h3>Informations personnelles</h3>
-            <table>
-                <tr>
-                    <th>Nom</th>
-                    <td>{{ user.last_name }}</td>
-                </tr>
-                <tr>
-                    <th>Prénom</th>
-                    <td>{{ user.first_name }}</td>
-                </tr>
-                <tr>
-                    <th>Email</th>
-                    <td>{{ user.email }}</td>
-                </tr>
-            </table>
-            
-            <!-- Informations complémentaires -->
-            <h3>Informations complémentaires</h3>
-            <table>
-                <tr>
-                    <th>Numéro client</th>
-                    <td>{{ insurance_infos.customer_number }}</td>
-                </tr>
-                <tr>
-                    <th>Genre</th>
-                    <td>{{ gender }}</td>
-                </tr>
-                <tr>
-                    <th>Âge</th>
-                    <td>{{ insurance_infos.age }}</td>
-                </tr>
-                <tr>
-                    <th>Nombre d'enfants</th>
-                    <td>{{ insurance_infos.children }}</td>
-                </tr>
-                <tr>
-                    <th>Région</th>
-                    <td>{{ region }}</td>
-                </tr>
-                <tr>
-                    <th>Fumeur</th>
-                    <td>{{ smoker }}</td>
-                </tr>
-                <tr>
-                    <th>BMI</th>
-                    <td>{{ insurance_infos.bmi }}</td>
-                </tr>
-            </table>
+<!-- Main Content Section -->
+<div class="main-container bg-[#f2f2f2] pt-8 px-8 pb-12">
+    <div class="container mx-auto bg-white rounded-lg shadow-xl p-8">
+        <h1 class="text-3xl font-semibold mb-6 text-[#1c2b36]">Mes informations</h1>
 
-            <!-- Options -->
-            <h3>Options</h3>
-            <table>
+        <!-- Informations personnelles -->
+        <h3 class="text-2xl font-semibold mb-4 text-[#1c2b36]">Informations personnelles</h3>
+        <table class="min-w-full table-auto border-collapse mb-8">
+            <thead class="bg-[#00bfae]">
                 <tr>
-                    <th>Ajouter des informations</th>
-                    <td><a href="{% url 'app:create_insurance_infos' %}">Ajouter</a></td>
+                    <th class="px-4 py-2 text-left text-white font-semibold">Nom</th>
+                    <th class="px-4 py-2 text-left text-white font-semibold">Prénom</th>
+                    <th class="px-4 py-2 text-left text-white font-semibold">Email</th>
                 </tr>
+            </thead>
+            <tbody>
+                <tr class="border-b hover:bg-[#f7f7f7] transition duration-200">
+                    <td class="px-4 py-2">{{ user.last_name }}</td>
+                    <td class="px-4 py-2">{{ user.first_name }}</td>
+                    <td class="px-4 py-2">{{ user.email }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Informations complémentaires -->
+        <h3 class="text-2xl font-semibold mb-4 text-[#1c2b36]">Informations complémentaires</h3>
+        <table class="min-w-full table-auto border-collapse mb-8">
+            <thead class="bg-[#00bfae]">
                 <tr>
-                    <th>Modifier mes informations personnelles</th>
-                    <td><a href="{% url 'app:update_infos' %}">Modifier</a></td>
+                    <th class="px-4 py-2 text-left text-white font-semibold">Genre</th>
+                    <th class="px-4 py-2 text-left text-white font-semibold">Âge</th>
+                    <th class="px-4 py-2 text-left text-white font-semibold">Région</th>
                 </tr>
-            </table>
-        </div>
+            </thead>
+            <tbody>
+                <tr class="border-b hover:bg-[#f7f7f7] transition duration-200">
+                    <td class="px-4 py-2">{{ gender }}</td>
+                    <td class="px-4 py-2">{{ insurance_infos.age }}</td>
+                    <td class="px-4 py-2">{{ region }}</td>
+                </tr>
+            </tbody>
+            <thead class="bg-[#00bfae]">
+                <tr>
+                    <th class="px-4 py-2 text-left text-white font-semibold">Nombre d'enfants</th>
+                    <th class="px-4 py-2 text-left text-white font-semibold">Fumeur</th>
+                    <th class="px-4 py-2 text-left text-white font-semibold">IMC</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="border-b hover:bg-[#f7f7f7] transition duration-200">
+                    <td class="px-4 py-2">{{ insurance_infos.children }}</td>
+                    <td class="px-4 py-2">{{ smoker }}</td>
+                    <td class="px-4 py-2">{{ insurance_infos.bmi }}</td>
+                </tr>
+        </table>
+
+        <!-- Options -->
+        <h3 class="text-2xl font-semibold mb-4 text-[#1c2b36]">Options</h3>
+        <table class="min-w-full table-auto border-collapse mb-8">
+            <thead class="bg-[#00bfae]">
+                <tr>
+                    <th class="px-4 py-2 text-left text-white font-semibold">Ajouter des informations</th>
+                    <th class="px-4 py-2 text-left text-white font-semibold">Modifier mes informations</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="border-b hover:bg-[#f7f7f7] transition duration-200">
+                    <td class="px-4 py-2"><a href="{% url 'app:create_insurance_infos' %}" class="text-[#00509d] hover:text-[#ffd500]">Ajouter</a></td>
+                    <td class="px-4 py-2"><a href="{% url 'app:update_infos' %}" class="text-[#00509d] hover:text-[#ffd500]">Modifier</a></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
+</div>
 
 {% endblock %}

@@ -1,42 +1,35 @@
-from django.shortcuts import render, redirect
+
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.functional import SimpleLazyObject
-from django.contrib.auth.forms import UserCreationForm
+
 from django.http import Http404
 from django.core.handlers.wsgi import WSGIRequest
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import AnonymousUser
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login, authenticate, get_user_model, logout
 from django.contrib import messages
 
 from django.views.generic import View, TemplateView, UpdateView, CreateView
 
 from django.urls import reverse_lazy
 
+from typing import cast
+
 from .models import InsuranceInfos, Predictions
-from .form import CustomUserCreationForm, InsuranceInfosUpdateForm, InsuranceInfosUpdateForm, PredictionsForm
+from .form import CustomUserCreationForm, InsuranceInfosUpdateForm, PredictionsForm
 
 from predictor import Predictor
 
-from typing import cast
 
-
-
-
-
-class RegisterView(TemplateView):
+class RegisterView(CreateView):
+    model = get_user_model()
+    form_class = CustomUserCreationForm
     template_name = 'app/register.html'
-
-    def inscription(request):
-        if request.method == 'POST':
-            form = CustomUserCreationForm(request.POST)
-            if form.is_valid():
-                form.save()
-                return redirect('connexion')
-        else:
-            form = CustomUserCreationForm()
-        return render(request, 'app/register.html', {'form': form})
+    success_url = reverse_lazy('app:login')
 
 
 class LoginView(TemplateView):
@@ -52,7 +45,11 @@ class LoginView(TemplateView):
 
             if user is not None:
                 login(request, user)
-                return redirect('app:profil')
+
+                if InsuranceInfos.objects.filter(user=self.request.user).exists():
+                    return redirect('app:profil')
+                else:
+                    return redirect('app:create_insurance_infos')
             else:
                 messages.error(request, "Nom d'utilisateur ou mot de passe incorrect")
                 return redirect('app:login')
@@ -66,54 +63,48 @@ class HomeView(TemplateView):
 class ProfileView(LoginRequiredMixin, TemplateView):
     template_name = 'app/profil.html'
 
-class UserInfosView(View):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['insurance_infos'] = InsuranceInfos.objects.filter(user=self.request.user).first()
         return context
 
-# class PredictionView(View):
-#     template_name = 'app/prediction.html'
-#     def get(self, request):
-#         return render(request, self.template_name)
+
 
 class UserInfosView(LoginRequiredMixin, TemplateView):
     template_name = 'app/user_infos.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        insurance_info = InsuranceInfos.objects.filter(user=self.request.user).first()
+        insurance_infos = InsuranceInfos.objects.filter(user=self.request.user).first()
 
-        if insurance_info:
-            context['gender'] = insurance_info.get_sex_display()
-            context['region'] = insurance_info.get_region_display()
-            context['smoker'] = insurance_info.get_smoker_display()
-        
-        context['insurance_infos'] = insurance_info
+        if insurance_infos:
+            context['gender'] = insurance_infos.get_sex_display()
+            context['region'] = insurance_infos.get_region_display()
+            context['smoker'] = insurance_infos.get_smoker_display()
+
+        context['insurance_infos'] = insurance_infos
         return context
 
-class UserInfosUpdateView(UpdateView):
+
+class UserInfosUpdateView(LoginRequiredMixin, UpdateView):
     model = InsuranceInfos
     form_class = InsuranceInfosUpdateForm
     template_name = 'app/update_infos.html'
     success_url = reverse_lazy('app:user_infos')
 
     def get_object(self, queryset=None):
-        return InsuranceInfos.objects.filter(user=self.request.user).first() or Http404("Aucune information trouvée pour cet utilisateur.")
+        # Utilise `get_object_or_404` pour une meilleure gestion d'erreur
+        return get_object_or_404(InsuranceInfos, user=self.request.user)
 
     def form_valid(self, form):
+        # Calcul du BMI s'il y a la taille et le poids
         height = form.cleaned_data.get('height')
         weight = form.cleaned_data.get('weight')
-
-        form.instance = cast(InsuranceInfosUpdateForm, form)
-     
         if height and weight:
-            bmi = round(weight / ((height / 100) ** 2), 2)
-            form.instance.bmi = bmi
+            form.instance.bmi = round(weight / ((height / 100) ** 2), 2)
         else:
             form.instance.bmi = None
 
-        messages.success(self.request, "Vos informations ont été mises à jour avec succès.")
         return super().form_valid(form)
 
 
@@ -126,12 +117,11 @@ class InsuranceInfosCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
 
+        # Calcul du BMI s'il y a la taille et le poids
         height = form.cleaned_data.get('height')
         weight = form.cleaned_data.get('weight')
-
         if height and weight:
-            bmi = round(weight / ((height / 100) ** 2), 2)
-            form.instance.bmi = bmi
+            form.instance.bmi = round(weight / ((height / 100) ** 2), 2)
         else:
             form.instance.bmi = None
 
@@ -302,7 +292,69 @@ def update_instance(fieldname : str, fieldvalue, data: InsuranceInfos) -> bool:
     return data_changed
   
 
-        
+#______________________________________________________________________________
+#
+#region khadidja PredictionView
+#______________________________________________________________________________       
+class PredictionView(LoginRequiredMixin, TemplateView):
+    template_name = 'app/prediction.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        insurance_infos = InsuranceInfos.objects.filter(user=self.request.user).first()
+
+        if not insurance_infos:
+            raise Http404("Aucune information trouvée pour cet utilisateur.")
+
+        # Initialisation du prédicteur
+        predictor = Predictor("serialized_model.pkl")
+        prediction = predictor.predict(
+            age=insurance_infos.age,
+            sex=insurance_infos.sex,
+            bmi=insurance_infos.bmi,
+            children=insurance_infos.children,
+            smoker="yes" if insurance_infos.smoker else "no",
+            region=insurance_infos.region
+        )
+        if insurance_infos:
+            context['gender'] = insurance_infos.get_sex_display()
+            context['region'] = insurance_infos.get_region_display()
+            context['smoker'] = insurance_infos.get_smoker_display()
+
+        context['insurance_infos'] = insurance_infos
+        context['prediction'] = float(int(prediction))
+
+        return context
+
+    def post(self, request, *args, **kwargs):
+        insurance_infos = InsuranceInfos.objects.filter(user=self.request.user).first()
+
+        if not insurance_infos:
+            raise Http404("Aucune information trouvée pour cet utilisateur.")
+
+        # Initialisation du prédicteur
+        predictor = Predictor("serialized_model.pkl")
+        prediction = predictor.predict(
+            age=insurance_infos.age,
+            sex=insurance_infos.sex,
+            bmi=insurance_infos.bmi,
+            children=insurance_infos.children,
+            smoker="yes" if insurance_infos.smoker else "no",
+            region=insurance_infos.region
+        )
+
+        # Création du modèle Predictions
+        prediction_model = Predictions(
+            user=request.user,
+            info=insurance_infos,
+            charges=prediction
+        )
+
+        # Enregistrement dans la base de données
+        prediction_model.save()
+        messages.success(request, "Votre prédiction a été enregistrée avec succès !")
+        return redirect('app:prediction')
+
 
 
 
