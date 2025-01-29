@@ -1,16 +1,28 @@
 from django.shortcuts import render, redirect
+from django.utils.functional import SimpleLazyObject
 from django.contrib.auth.forms import UserCreationForm
 from django.http import Http404
-from .form import CustomUserCreationForm, InsuranceInfosUpdateForm
+from django.core.handlers.wsgi import WSGIRequest
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+
 from django.views.generic import View, TemplateView, UpdateView, CreateView
-from django.contrib.auth.mixins import LoginRequiredMixin
+
 from django.urls import reverse_lazy
-from .models import InsuranceInfos
+
+from .models import InsuranceInfos, Predictions
+from .form import CustomUserCreationForm, InsuranceInfosUpdateForm, InsuranceInfosUpdateForm, PredictionsForm
+
+from predictor import Predictor
 
 from typing import cast
+
+
+
 
 
 class RegisterView(TemplateView):
@@ -132,24 +144,7 @@ class InsuranceInfosCreateView(LoginRequiredMixin, CreateView):
         return super().dispatch(request, *args, **kwargs)
 
 
-rom django.shortcuts import render
-from django.http import Http404
 
-from django.core.handlers.wsgi import WSGIRequest
-from django.contrib.auth.base_user import AbstractBaseUser
-
-from django.contrib.auth.models import AnonymousUser
-from django.utils.functional import SimpleLazyObject
-
-from django.views.generic import TemplateView
-
-from .models import InsuranceInfos, Predictions
-from .form import InsuranceInfosUpdateForm
-from .forms import PredictionsForm
-
-from predictor import Predictor
-
-from typing import cast
 
 
 #______________________________________________________________________________
