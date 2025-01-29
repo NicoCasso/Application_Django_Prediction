@@ -195,9 +195,6 @@ class PredictionTemplateView(TemplateView):
         info_form.fields.pop('height')
         info_form.fields.pop('weight')
 
-        for field in info_form :
-            thing = field
-
         context['info_form'] = info_form
         context['bmi'] = insurance_infos.bmi
 

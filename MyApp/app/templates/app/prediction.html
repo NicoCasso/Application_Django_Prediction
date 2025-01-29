@@ -15,7 +15,6 @@
     <form method="post" class="conainer">
         {% csrf_token %}
 
-
         {% comment %}
               Pour que l'affichage soit en deux parties (droite et gauche)
               la balise div class="grid" doit se situer à lintérieur de la balise form   
@@ -30,6 +29,7 @@
                 <table class="min-w-full table-auto border-collapse mb-8">
                     <thead class="bg-[#00bfae]">
                         <tr>
+
                             {% comment %}
                                 labels des champs sex, age, region
                             {% endcomment %}
@@ -42,6 +42,7 @@
                                     <th class="px-4 py-2 text-left text-white font-semibold">{{field.label}}</th>
                                 {% endif %}  
                             {% endfor %}
+                            
                         </tr>
                     </thead>
                     <tbody>          
