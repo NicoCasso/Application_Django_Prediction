@@ -12,8 +12,10 @@
 <!-- Main Content Section -->
 <div class="main-container bg-[#f2f2f2] pt-8 px-auto pb-12">
 
-    <form method="post" class="conainer">
+    <form method="post">
         {% csrf_token %}
+
+        <input type="hidden" name="info_id" value="{{ info_id }}">
 
         {% comment %}
               Pour que l'affichage soit en deux parties (droite et gauche)

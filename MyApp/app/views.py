@@ -203,6 +203,7 @@ def get_anonymous_insurance_infos() :
     insurance_infos.children = 0
     insurance_infos.smoker = False
     insurance_infos.region = "northeast"
+    insurance_infos.pk = 0 
     return insurance_infos
 
 #______________________________________________________________________________
@@ -240,32 +241,41 @@ class PredictionTemplateView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        insurance_infos = InsuranceInfos.objects.filter(user=self.request.user).first()
+        if self.request.method == "GET":
+            info_id = self.request.GET.get("info_id")
+        else :
+            info_id = self.request.POST.get("info_id")
+
+        if not info_id or info_id =="0":
+            insurance_infos = InsuranceInfos.objects.filter(user=self.request.user).first()
+        else :       
+            insurance_infos = InsuranceInfos.objects.filter(pk=info_id).first()
+        
         if not insurance_infos : 
             insurance_infos = get_anonymous_insurance_infos()
             
-        info_form = InsuranceInfosUpdateForm(instance=insurance_infos)
-        #if self.request.method == 'GET' :
-        info_form.fields.pop('height')
-        info_form.fields.pop('weight')
+        self.info_form = InsuranceInfosUpdateForm(instance=insurance_infos)
+        self.info_form.fields.pop('height')
+        self.info_form.fields.pop('weight')
 
-        context['info_form'] = info_form
+        context['info_form'] = self.info_form
+        context['info_id'] = insurance_infos.pk
         context['bmi'] = insurance_infos.bmi
 
         return context
     
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
-        info_form = cast( InsuranceInfosUpdateForm, context['info_form']) 
 
-        predictions_object = get_predictions_object(info_form.instance, self.request.user)
+        data = cast( InsuranceInfos,self.info_form.instance)
+
+        predictions_object = get_predictions_object(data, self.request.user)
         context['prediction'] = predictions_object.charges
 
         return self.render_to_response(context)
     
     def post(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
-        info_form = cast( InsuranceInfosUpdateForm, context['info_form']) 
         
         request_infos = {}
         request_infos['age'] = request.POST['age']
@@ -278,7 +288,7 @@ class PredictionTemplateView(TemplateView):
         # request_infos['bmi'] = request.POST['bmi']
 
         data_changed = False
-        data = cast(InsuranceInfos, info_form.instance )
+        data = cast(InsuranceInfos, self.info_form.instance )
         # do the same thing
         #data:InsuranceInfos = info_form.instance
 
@@ -294,18 +304,24 @@ class PredictionTemplateView(TemplateView):
             new_data.children = data.children
             new_data.bmi = data.bmi
             new_data.save()
-            
-            info_form.instance  = new_data
-            info_form.full_clean()
+            data = new_data
 
-        context['bmi'] = info_form.instance.bmi
+            self.info_form = InsuranceInfosUpdateForm(instance=data)
+            self.info_form.fields.pop('height')
+            self.info_form.fields.pop('weight')
 
-        predictions_object = get_predictions_object(info_form.instance, self.request.user)
+        context['info_form'] = self.info_form
+        context['bmi'] = data.bmi
+
+        # info_id is included in a hidden input 
+        context['info_id'] = data.pk
+
+        predictions_object = get_predictions_object(data, self.request.user)
         predictions_object.save()
 
         context['prediction'] = predictions_object.charges
 
-        return self.render_to_response(context)
+        return self.render_to_response( context )
 
 def update_instance(fieldname : str, fieldvalue, data: InsuranceInfos) -> bool:
     data_changed = False
