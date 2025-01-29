@@ -179,6 +179,7 @@ def get_predictions_object(insurance_infos : InsuranceInfos, user ) -> Predictio
 #______________________________________________________________________________
 class PredictionTemplateView(TemplateView):
     template_name = 'app/prediction.html'
+    #template_name = 'app/prediction_original.html'
     info_form = InsuranceInfosUpdateForm
     pred_form = PredictionsForm
 
@@ -193,6 +194,9 @@ class PredictionTemplateView(TemplateView):
         #if self.request.method == 'GET' :
         info_form.fields.pop('height')
         info_form.fields.pop('weight')
+
+        for field in info_form :
+            thing = field
 
         context['info_form'] = info_form
         context['bmi'] = insurance_infos.bmi
