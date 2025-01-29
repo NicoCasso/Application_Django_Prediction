@@ -95,6 +95,7 @@ class InsuranceInfosUpdateForm(forms.ModelForm):
 
         if commit:
             instance.save()
+            
         return instance
     
     def clean_children(self):

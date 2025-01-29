@@ -38,7 +38,7 @@ class InsuranceInfos(models.Model):
 
 class Predictions(models.Model):
     charges = models.IntegerField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
     info = models.ForeignKey(InsuranceInfos, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
