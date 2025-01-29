@@ -17,17 +17,3 @@ urlpatterns = [
     path('prediction', PredictionTemplateView.as_view(), name='prediction'),
     #path('prediction/', PredictionView.as_view(), name='prediction'),
 ]
-
-
-
-    #path('prediction', specific_view.get_perdiction_page, name='prediction'),
-# urlpatterns = [
-#     path('home', HomeView.as_view(), name='home'),
-#     path('register/', RegisterView.as_view(), name='register'),
-#     path('login/', LoginView.connexion,name='login'),
-#     path('profile', ProfileView.as_view(), name='profile'),
-#     path('predict', ProfileView.as_view(), name='predict'),
-    
-# ]
-
-# à vérifier
