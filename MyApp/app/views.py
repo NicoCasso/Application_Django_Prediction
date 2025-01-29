@@ -70,8 +70,11 @@ class PredictionView(LoginRequiredMixin, TemplateView):
             smoker="yes" if insurance_infos.smoker else "no",
             region=insurance_infos.region
         )
+        if insurance_infos:
+            context['gender'] = insurance_infos.get_sex_display()
+            context['region'] = insurance_infos.get_region_display()
+            context['smoker'] = insurance_infos.get_smoker_display()
 
-        # Passer les informations au contexte
         context['insurance_infos'] = insurance_infos
         context['prediction'] = float(int(prediction))
 
@@ -112,14 +115,14 @@ class UserInfosView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        insurance_info = InsuranceInfos.objects.filter(user=self.request.user).first()
+        insurance_infos = InsuranceInfos.objects.filter(user=self.request.user).first()
 
-        if insurance_info:
-            context['gender'] = insurance_info.get_sex_display()
-            context['region'] = insurance_info.get_region_display()
-            context['smoker'] = insurance_info.get_smoker_display()
+        if insurance_infos:
+            context['gender'] = insurance_infos.get_sex_display()
+            context['region'] = insurance_infos.get_region_display()
+            context['smoker'] = insurance_infos.get_smoker_display()
 
-        context['insurance_infos'] = insurance_info
+        context['insurance_infos'] = insurance_infos
         return context
 
 
