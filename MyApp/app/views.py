@@ -197,7 +197,7 @@ class InsuranceInfosCreateView(LoginRequiredMixin, CreateView):
 #______________________________________________________________________________
 def get_anonymous_insurance_infos() :
     insurance_infos = InsuranceInfos()
-    insurance_infos.age = 23
+    insurance_infos.age = 18
     insurance_infos.sex = "male"
     insurance_infos.bmi = 23
     insurance_infos.children = 0
