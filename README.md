@@ -86,10 +86,21 @@ Voici la liste des logiciels, bibliothèques et dépendances nécessaires pour e
     pandas >= 2.2.3
     scikit-learn >= 1.6.1
     django >= 5.1.5
+
+        https://www.djangoproject.com/
+
     django-tailwind >= 3.8.0
     django-browser-reload >= 1.17.0
+
+        https://django-tailwind.readthedocs.io/en/latest/installation.html
+
     python-dotenv >= 1.0.1
+
+        https://configu.com/blog/using-py-dotenv-python-dotenv-package-to-manage-env-variables/
+
     whitenoise >= 6.8.2
+
+        https://whitenoise.readthedocs.io/en/stable/django.html
 
 ## Outputs
 
