@@ -10,13 +10,19 @@ Installations nécessaires :
 
         source .venv/bin/activate 
 
-        
     Installer les dépendances du projet :
      
         pip install -r requirements.txt
 
-        il peut être nécessaire d'intaller npm ou nodejs s'ils n sont pas reconnus (pour l'utilisation de tailwindcss)
-
+        il peut être nécessaire d'installer npm ou nodejs s'ils ne sont pas reconnus (pour l'utilisation de tailwindcss)
+        
+    Initialiser tailwindcss, whitenoise :
+    
+        python manage.py tailwind init
+        python manage.py tailwind install
+        
+        python manage.py collectstatic
+    
     Créer la base de données : 
 
         python manage.py makemigrations
