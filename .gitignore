@@ -30,7 +30,9 @@ media
 .Python
 build/
 develop-eggs/
-dist/
+#removed dist 
+#dist/
+staticfiles/css/dist/styles.css
 downloads/
 eggs/
 .eggs/
