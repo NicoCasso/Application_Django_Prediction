@@ -32,7 +32,7 @@ build/
 develop-eggs/
 #removed dist 
 #dist/
-staticfiles/css/dist/styles.css
+staticfiles/css/dist/
 downloads/
 eggs/
 .eggs/
