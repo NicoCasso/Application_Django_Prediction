@@ -87,26 +87,26 @@ Voici la liste des logiciels, bibliothèques et dépendances nécessaires pour e
     scikit-learn >= 1.6.1
     django >= 5.1.5
 
-        https://www.djangoproject.com/
+https://www.djangoproject.com/
 
     django-tailwind >= 3.8.0
     django-browser-reload >= 1.17.0
 
-        https://django-tailwind.readthedocs.io/en/latest/installation.html
+https://django-tailwind.readthedocs.io/en/latest/installation.html
 
     python-dotenv >= 1.0.1
 
-        https://configu.com/blog/using-py-dotenv-python-dotenv-package-to-manage-env-variables/
+https://configu.com/blog/using-py-dotenv-python-dotenv-package-to-manage-env-variables/
 
     whitenoise >= 6.8.2
 
-        https://whitenoise.readthedocs.io/en/stable/django.html
+https://whitenoise.readthedocs.io/en/stable/django.html
 
 ## Outputs
 
 Les utilisateurs peuvent s'attendre aux sorties suivantes :
 
-    Interface utilisateur : Un tsite interet dans lequel les utilisateur peuvent s'sincrire, renseigner des informations personnelles et accéder aux informations de prédiction d'assurance.
+    Interface utilisateur : Un site internet dans lequel les utilisateurs peuvent s'sincrire, renseigner des informations personnelles et accéder aux informations de prédiction d'assurance.
 
     Prédictions : Les résultats des prédictions (en $) des primes d'assurance annuelles basés sur les données d'entrée.
 
