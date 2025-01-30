@@ -8,7 +8,7 @@
   --tw-skew-y: 0;
   --tw-scale-x: 1;
   --tw-scale-y: 1;
-  --tw-pan-x:  ;
+  --tw-pan-x:  ; 
   --tw-pan-y:  ;
   --tw-pinch-zoom:  ;
   --tw-scroll-snap-strictness: proximity;
@@ -52,6 +52,7 @@
   --tw-contain-style:  ;
 }
 
+/* add a comment*/
 ::backdrop {
   --tw-border-spacing-x: 0;
   --tw-border-spacing-y: 0;
