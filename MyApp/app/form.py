@@ -21,9 +21,17 @@ SMOKER_CHOICES = [
     (False, 'Non'),  # No
 ]
 
-# User Registration Form
+#______________________________________________________________________________
+#
+#region  User Registration Form ( CustomUserCreationForm )
+#______________________________________________________________________________
 class CustomUserCreationForm(UserCreationForm):
-    """Form for creating a new user with custom fields."""
+    """
+    Form for creating a new user with custom fields.
+    
+    This form extends the standard UserCreationForm to include additional fields such as 
+    first name, last name, and email, along with the necessary password fields.
+    """
     password1 = forms.CharField(
         label="Mot de passe",  # Password
         strip=False,
@@ -60,11 +68,26 @@ class CustomUserCreationForm(UserCreationForm):
     )
 
     class Meta(UserCreationForm.Meta):
+        """
+        Meta class that includes additional fields for user creation.
+        
+        Inherits fields from the UserCreationForm and adds last name, first name, 
+        email, password1, and password2.
+        """
         fields = UserCreationForm.Meta.fields + ("last_name", "first_name", "email", "password1", "password2")
 
-# Insurance Info Update Form
+
+#______________________________________________________________________________
+#
+#region Insurance Info Update Form
+#______________________________________________________________________________
 class InsuranceInfosUpdateForm(forms.ModelForm):
-    """Form for updating insurance information."""
+    """
+    Form for updating the user's insurance information.
+    
+    This form includes fields for age, sex, smoking status, region, number of children, 
+    height, and weight. It also calculates and updates the BMI based on height and weight.
+    """
     height = forms.FloatField(
         label="Taille (cm)", min_value=50, max_value=250)  # Height in cm
     weight = forms.FloatField(
@@ -76,6 +99,11 @@ class InsuranceInfosUpdateForm(forms.ModelForm):
     children = forms.IntegerField(label="Nombre d'enfants")  # Number of children
 
     class Meta:
+        """
+        Meta class for the InsuranceInfosUpdateForm, defining model and field choices.
+        
+        Specifies the model as InsuranceInfos and the fields to be included in the form.
+        """
         model = InsuranceInfos
         fields = ['age', 'sex', 'smoker', 'region', 'children', 'height', 'weight']
         widgets = {
@@ -89,7 +117,12 @@ class InsuranceInfosUpdateForm(forms.ModelForm):
         }
 
     def save(self, commit=True):
-        """Override save method to calculate BMI and save the instance."""
+        """
+        Override the save method to calculate BMI and save the insurance info instance.
+        
+        If both height and weight are provided, it calculates the BMI and assigns it to 
+        the instance before saving.
+        """
         instance = super().save(commit=False)
 
         # Calculate BMI if both height and weight are provided
@@ -105,9 +138,19 @@ class InsuranceInfosUpdateForm(forms.ModelForm):
 #
 # region unused PredictionsForm
 #______________________________________________________________________________
-
 class PredictionsForm(forms.ModelForm):
+    """
+    Form for storing the predicted insurance charges.
+    
+    This form includes a single field, `charges`, representing the predicted insurance 
+    cost, and provides validation for that field.
+    """
     class Meta():
+        """
+        Meta class for PredictionsForm, defining the model and fields.
+        
+        Specifies that only the `charges` field will be used in the form.
+        """
         fields = ['charges']
         model= Predictions
 
@@ -115,7 +158,11 @@ class PredictionsForm(forms.ModelForm):
     widgets = { 'charges' : forms.NumberInput(attrs={'class': 'form-control'}) }
     
     def clean_children(self):
-        """Validate the number of children."""
+        """
+        Custom validation for the number of children.
+        
+        Ensures that the number of children is between 0 and 20.
+        """
         children = self.cleaned_data.get('children')
 
         if children < 0 or children > 20:
@@ -124,7 +171,11 @@ class PredictionsForm(forms.ModelForm):
         return children
     
     def clean_age(self):
-        """Validate the age."""
+        """
+        Custom validation for age.
+        
+        Ensures that the age is between 18 and 120.
+        """
         age = self.cleaned_data.get('age')
 
         if age < 18 or age > 120:

@@ -23,21 +23,46 @@ from .form import CustomUserCreationForm, InsuranceInfosUpdateForm, PredictionsF
 
 from predictor import Predictor
 
-
+#______________________________________________________________________________
+#
+#region RegisterView
+#______________________________________________________________________________
 class RegisterView(CreateView):
-    """View for user registration."""
+    """
+    View for user registration.
+
+    Handles the user registration process, presenting a form to the user,
+    and redirecting to the login page upon successful registration.
+    """
     model = get_user_model()
     form_class = CustomUserCreationForm
     template_name = 'app/register.html'
     success_url = reverse_lazy('app:login')
 
+#______________________________________________________________________________
+#
+#region LoginView
+#______________________________________________________________________________
 class LoginView(TemplateView):
-    """View for user login."""
+    """
+    View for user login.
+
+    Handles GET and POST requests for user login, including authenticating the user
+    and redirecting them based on the presence of insurance information.
+    """
     template_name = 'app/login.html'
 
 
     def post(self, request):
-        """Handles POST requests for login, authenticates user."""
+        """
+        Handles POST requests for login, authenticates user and redirects.
+
+        Args:
+            request: The HTTP request object containing form data.
+
+        Returns:
+            A redirect to the user's profile or insurance info creation page.
+        """
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
@@ -51,27 +76,67 @@ class LoginView(TemplateView):
         messages.error(request, "Incorrect username or password")
         return redirect('app:login')
 
+#______________________________________________________________________________
+#
+#region HomeView
+#______________________________________________________________________________
 class HomeView(TemplateView):
-    """View for the homepage."""
+    """
+    View for the homepage.
+
+    Displays the homepage of the application.
+    """
     template_name = 'app/home.html'
 
+#______________________________________________________________________________
+#
+#region ProfileView
+#______________________________________________________________________________
 class ProfileView(LoginRequiredMixin, TemplateView):
-    """View for user profile page."""
+    """
+    View for user profile page.
+
+    Displays the user's profile and their insurance information.
+    """
     template_name = 'app/profil.html'
 
     def get_context_data(self, **kwargs):
-        """Adds insurance information to the context."""
+        """
+        Adds insurance information to the context for the profile view.
+
+        Args:
+            kwargs: Additional context passed to the view.
+
+        Returns:
+            context: A dictionary containing user and insurance information.
+        """
         context = super().get_context_data(**kwargs)
         context['insurance_infos'] = InsuranceInfos.objects.filter(user=self.request.user).first()
         return context
 
-
+#______________________________________________________________________________
+#
+#region PredictionView (old)
+#______________________________________________________________________________
 class PredictionView(LoginRequiredMixin, TemplateView):
-    """View for displaying and saving insurance predictions."""
+    """
+    View for displaying and saving insurance predictions.
+
+    Displays the user's insurance information along with a prediction of their
+    insurance charges based on the provided data, and allows the user to save the prediction.
+    """
     template_name = 'app/prediction.html'
 
     def get_context_data(self, **kwargs):
-        """Adds prediction data to the context."""
+        """
+        Adds prediction data to the context.
+
+        Args:
+            kwargs: Additional context passed to the view.
+
+        Returns:
+            context: A dictionary containing the prediction and insurance information.
+        """
         context = super().get_context_data(**kwargs)
         insurance_infos = get_object_or_404(InsuranceInfos, user=self.request.user)
 
@@ -96,7 +161,15 @@ class PredictionView(LoginRequiredMixin, TemplateView):
         return context
 
     def post(self, request, *args, **kwargs):
-        """Handles POST requests to save the insurance prediction."""
+        """
+        Handles POST requests to save the insurance prediction.
+
+        Args:
+            request: The HTTP request object containing form data.
+
+        Returns:
+            A redirect to the prediction page with a success message.
+        """
         insurance_infos = get_object_or_404(InsuranceInfos, user=self.request.user)
         predictor = Predictor("serialized_model.pkl")
         prediction = predictor.predict(
@@ -115,6 +188,15 @@ class PredictionView(LoginRequiredMixin, TemplateView):
     
     @login_required
     def update_insurance_info(request):
+        """
+        Handles POST requests to save the insurance prediction.
+
+        Args:
+            request: The HTTP request object containing form data.
+
+        Returns:
+            A redirect to the prediction page with a success message.
+        """
         # Récupérer l'objet InsuranceInfos de l'utilisateur connecté
         try:
             insurance_info = InsuranceInfos.objects.get(user=request.user)
@@ -132,6 +214,10 @@ class PredictionView(LoginRequiredMixin, TemplateView):
 
         return render(request, 'path_to_your_template.html', {'form': form, 'insurance_infos': insurance_info})
 
+#______________________________________________________________________________
+#
+#region UserInfosView
+#______________________________________________________________________________
 class UserInfosView(LoginRequiredMixin, TemplateView):
     """View for displaying user information."""
     template_name = 'app/user_infos.html'
@@ -149,6 +235,10 @@ class UserInfosView(LoginRequiredMixin, TemplateView):
             })
         return context
 
+#______________________________________________________________________________
+#
+#region UserInfosUpdateView
+#______________________________________________________________________________
 class UserInfosUpdateView(LoginRequiredMixin, UpdateView):
     """View for updating user insurance information."""
     model = InsuranceInfos
@@ -166,6 +256,10 @@ class UserInfosUpdateView(LoginRequiredMixin, UpdateView):
         form.instance.bmi = round(weight / ((height / 100) ** 2), 2) if height and weight else None
         return super().form_valid(form)
 
+#______________________________________________________________________________
+#
+#region InsuranceInfosCreateView
+#______________________________________________________________________________
 class InsuranceInfosCreateView(LoginRequiredMixin, CreateView):
     """View for creating user insurance information."""
     model = InsuranceInfos
@@ -187,15 +281,17 @@ class InsuranceInfosCreateView(LoginRequiredMixin, CreateView):
             return redirect('app:update_infos')
         return super().dispatch(request, *args, **kwargs)
 
-
-
-
-
 #______________________________________________________________________________
 #
 #region get_anonymous_insurance_infos
 #______________________________________________________________________________
 def get_anonymous_insurance_infos() :
+    """
+    Generates default insurance information for anonymous users.
+
+    Returns:
+        InsuranceInfos: A populated InsuranceInfos object with default values.
+    """
     insurance_infos = InsuranceInfos()
     insurance_infos.age = 18
     insurance_infos.sex = "male"
@@ -212,6 +308,16 @@ def get_anonymous_insurance_infos() :
 # user is not SimpleLazyObject
 #______________________________________________________________________________
 def get_predictions_object(insurance_infos : InsuranceInfos, user ) -> Predictions:
+    """
+    Generates a Predictions object based on the provided insurance information.
+
+    Args:
+        insurance_infos: An instance of the InsuranceInfos model.
+        user: The user requesting the prediction.
+
+    Returns:
+        Predictions: A Predictions object populated with the prediction details.
+    """
     predictor = Predictor("serialized_model.pkl")
     prediction = predictor.predict(
         age=insurance_infos.age, 
@@ -230,7 +336,7 @@ def get_predictions_object(insurance_infos : InsuranceInfos, user ) -> Predictio
 
 #______________________________________________________________________________
 #
-#region View with object method
+#region Prediction View with object method
 #______________________________________________________________________________
 class PredictionTemplateView(TemplateView):
     template_name = 'app/prediction.html'
@@ -324,6 +430,17 @@ class PredictionTemplateView(TemplateView):
         return self.render_to_response( context )
 
 def update_instance(fieldname : str, fieldvalue, data: InsuranceInfos) -> bool:
+    """
+    Updates the insurance information instance with new field values.
+
+    Args:
+        fieldname: The field to be updated.
+        fieldvalue: The new value for the field.
+        data: The InsuranceInfos instance to be updated.
+
+    Returns:
+        bool: True if any changes were made, False otherwise.
+    """
     data_changed = False
     match fieldname :
         case 'age' : 
@@ -365,7 +482,7 @@ def update_instance(fieldname : str, fieldvalue, data: InsuranceInfos) -> bool:
 
 #______________________________________________________________________________
 #
-#region khadidja PredictionView
+#region unused PredictionView
 #______________________________________________________________________________       
 class PredictionView(LoginRequiredMixin, TemplateView):
     template_name = 'app/prediction.html'
@@ -427,12 +544,9 @@ class PredictionView(LoginRequiredMixin, TemplateView):
         return redirect('app:prediction')
 
 
-
-
-
 #______________________________________________________________________________
 #
-#region View with functional method
+#region unused prediction View with functional method
 #______________________________________________________________________________
 def get_prediction_page(request : WSGIRequest):
     if request.user is AnonymousUser : 
