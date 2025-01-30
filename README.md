@@ -80,15 +80,18 @@ Suivez ces étapes pour exécuter le projet :
 
 ## Requirements
 
-
 Voici la liste des logiciels, bibliothèques et dépendances nécessaires pour exécuter ce projet :
 
-    Python >= 3.x
-    Django >= 4.x
-    tailwindcss
-    whitenoise
+    Python >= 3.12
+    pandas >= 2.2.3
+    scikit-learn >= 1.6.1
+    django >= 5.1.5
+    django-tailwind >= 3.8.0
+    django-browser-reload >= 1.17.0
+    python-dotenv >= 1.0.1
+    whitenoise >= 6.8.2
 
-Outputs
+## Outputs
 
 Les utilisateurs peuvent s'attendre aux sorties suivantes :
 
