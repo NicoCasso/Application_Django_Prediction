@@ -1,58 +1,104 @@
-Application de prédiction de prime d'assurance utilisant un modèle de Machine Learning.
+# <p align="center">Prédiction de Prime d'Assurance</p>
+<p align="center">
+    <img src="images/project_logo.png" alt="Pas de logo pour ce projet" width="200">
+</p>
 
-Installations nécessaires :
+## ➤ Menu
 
-1. Se placer dans le répertoire MyApp et créer l'environnement de développement :
+* [➤ Project Structure](#-project-structure)
+* [➤ How to Run](#-how-to-run)
+* [➤ Requirements](#-requirements)
+
+---
+
+## Project Structure
+
+Ce projet inclut les fichiers et modules principaux suivants :
+
+- **manage.py**: Le fichier principal de gestion du projet Django, permettant de gérer les migrations, les commandes et le serveur.
+- **tailwind_config.py**: Configuration pour `tailwindcss` pour la gestion du style de l'application.
+- **requirements.txt**: Liste des dépendances nécessaires au projet.
+
+### Modules supplémentaires
+
+- **whitenoise**: Permet de gérer et de servir des fichiers statiques efficacement.
+- **Modeles de Machine Learning**: Contient les fichiers et modèles utilisés pour prédire les primes d'assurance.
+
+---
+
+## How to Run
+
+Suivez ces étapes pour exécuter le projet :
+
+1. **Assurez-vous que Python (ou les dépendances requises) est installé sur votre système.**
+2. Clonez ce dépôt sur votre machine locale :
+
+        git clone https://github.com/NicoCasso/Application_Django_Prediction.git
+
+
+    Allez dans le répertoire du projet :
+
+        cd MyApp
+
+    Créez et activez un environnement virtuel :
 
         python -m venv .venv
+        source .venv/bin/activate  # Sur macOS/Linux
+        .venv\Scripts\activate     # Sur Windows
 
-2. L'activer : 
+    Installez les dépendances nécessaires :
 
-        source .venv/bin/activate 
-
-3. Installer les dépendances du projet :
-     
         pip install -r requirements.txt
 
-    il peut être nécessaire d'installer npm ou nodejs s'ils ne sont pas reconnus (pour l'utilisation de tailwindcss)
-        
-4. Initialiser tailwindcss :
-    
+    Initialisez et configurez tailwindcss :
+
         python manage.py tailwind init
         python manage.py tailwind install
 
-5. Collecter les fichiers via whitenoise :
-        
+    Collectez les fichiers statiques via whitenoise :
+
         python manage.py collectstatic
-    
-6. Créer la base de données : 
+
+    Créez la base de données :
 
         python manage.py makemigrations
         python manage.py migrate
 
-7. Créer un super user : 
+    Créez un super utilisateur :
 
         python manage.py createsuperuser
 
-    (nécessitera username, email, password)
-
-
-Lancer le projet :
-
-1. dans un premier terminal (dossier MyApp) démarrer le serveur tailwind avec :
+    Lancez le serveur tailwind dans un terminal :
 
         python manage.py tailwind start
 
-2. dans un second terminal (dossier MyApp aussi) démarrer le serveur django avec :
+    Lancez le serveur Django dans un autre terminal :
 
         python manage.py runserver
 
-3. (Optionnel) Ouvrir un explorateur web à l'adresse : 
+---
 
-        127.0.0.1:8000/admin
+## Requirements
 
-    se connecter avec les information du super user et créer un utilisateur "normal"
 
-4. Accéder à l'application via ce nouvel utilisateur
+Voici la liste des logiciels, bibliothèques et dépendances nécessaires pour exécuter ce projet :
 
-        127.0.0.1:8000/home
+    Python >= 3.x
+    Django >= 4.x
+    tailwindcss
+    whitenoise
+
+Outputs
+
+Les utilisateurs peuvent s'attendre aux sorties suivantes :
+
+    Interface utilisateur : Un tsite interet dans lequel les utilisateur peuvent s'sincrire, renseigner des informations personnelles et accéder aux informations de prédiction d'assurance.
+
+    Prédictions : Les résultats des prédictions (en $) des primes d'assurance annuelles basés sur les données d'entrée.
+
+
+
+
+
+
+
