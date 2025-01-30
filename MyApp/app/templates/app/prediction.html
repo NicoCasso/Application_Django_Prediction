@@ -10,7 +10,7 @@
 {% include 'includes/navbar_section.html' %}
 
 <!-- Main Content Section -->
-<div class="main-container bg-[#f2f2f2] pt-8 pb-12">
+<div class="main-container bg-[#f2f2f2] pt-8 px-auto pb-12">
 
     <form method="post">
         {% csrf_token %}
@@ -19,90 +19,107 @@
 
         {% comment %}
               Pour que l'affichage soit en deux parties (droite et gauche)
-              la balise div class="grid" doit se situer à l'intérieur de la balise form   
+              la balise div class="grid" doit se situer à lintérieur de la balise form   
         {% endcomment %}
-        <div class="flex flex-row max-w-[1200px] mx-auto px-4 gap-8">
+        <div class="grid grid-cols-2 gap-8 container mx-auto">
 
             <!-- Partie "Mes informations" -->
-            <div class="w-[40%] bg-white rounded-lg shadow-xl p-8">
+            <div class="bg-white rounded-lg shadow-xl p-8">
                 <h1 class="text-3xl font-semibold mb-6 text-[#1c2b36]">Mes informations</h1>
+                <h3 class="text-2xl font-semibold mb-4 text-[#1c2b36]">Informations complémentaires</h3>
 
-                <input type="hidden" name="info_id" value="{{ info_id }}">
-
-                <table class="w-3/5 table-auto border-collapse mb-8 mx-auto">
+                <table class="min-w-full table-auto border-collapse mb-8">
                     <thead class="bg-[#00bfae]">
                         <tr>
+
+                            {% comment %}
+                                labels des champs sex, age, region
+                            {% endcomment %}
                             {% for field in info_form %}
-                            {% if field.name == "age" %}
-                            <th class="px-3 py-2 text-left text-white font-semibold">{{ field.label }}</th>
-                            {% elif field.name == "sex" %}
-                            <th class="px-3 py-2 text-left text-white font-semibold">{{ field.label }}</th>
-                            {% elif field.name == "region" %}
-                            <th class="px-3 py-2 text-left text-white font-semibold">{{ field.label }}</th>
-                            {% endif %}
+                                {% if field.name == "sex" %}                 
+                                    <th class="px-4 py-2 text-left text-white font-semibold">{{field.label}}</th>
+                                {% elif field.name == "age" %}   
+                                    <th class="px-4 py-2 text-left text-white font-semibold">{{field.label}}</th>
+                                {% elif field.name == "region" %}    
+                                    <th class="px-4 py-2 text-left text-white font-semibold">{{field.label}}</th>
+                                {% endif %}  
                             {% endfor %}
+                            
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody>          
                         <tr class="border-b hover:bg-[#f7f7f7] transition duration-200">
+                            {% comment %}
+                                contenu des champs sex, age, region
+                            {% endcomment %}
                             {% for field in info_form %}
-                            {% if field.name == "age" %}
-                            <td class="px-3 py-2">
-                                {% if field.errors %} {{ field.errors }} <br/> {% endif %}
-                                {{ field }}
-                            </td>
-                            {% elif field.name == "sex" %}
-                            <td class="px-3 py-2">
-                                {% if field.errors %} {{ field.errors }} <br/> {% endif %}
-                                {{ field }}
-                            </td>
-                            {% elif field.name == "region" %}
-                            <td class="px-3 py-2">
-                                {% if field.errors %} {{ field.errors }} <br/> {% endif %}
-                                {{ field }}
-                            </td>
-                            {% endif %}
+                                {% if field.name == "sex" %} 
+                                    <td class="px-4 py-2"> 
+                                        {% if field.errors %}  {{ field.errors }} <br/> {% endif %}
+                                        {{ field }}
+                                    </td>
+                                {% elif field.name == "age" %} 
+                                    <td class="px-4 py-2"> 
+                                        {% if field.errors %}  {{ field.errors }} <br/> {% endif %}
+                                        {{ field }}
+                                    </td>
+                                {% elif field.name == "region" %} 
+                                    <td class="px-4 py-2"> 
+                                        {% if field.errors %}  {{ field.errors }} <br/> {% endif %}
+                                        {{ field }}
+                                    </td>
+                                {% endif %}
                             {% endfor %}
+                            
                         </tr>
                     </tbody>
                     <thead class="bg-[#00bfae]">
                         <tr>
+
+                            {% comment %}
+                                labels des champs children, smoker, bmi
+                            {% endcomment %}
                             {% for field in info_form %}
-                            {% if field.name == "children" %}
-                            <th class="px-3 py-2 text-left text-white font-semibold">{{ field.label }}</th>
-                            {% elif field.name == "smoker" %}
-                            <th class="px-3 py-2 text-left text-white font-semibold">{{ field.label }}</th>
-                            {% endif %}
+                                {% if field.name == "children" %}                 
+                                    <th class="px-4 py-2 text-left text-white font-semibold">{{field.label}}</th>
+                                {% elif field.name == "smoker" %}   
+                                    <th class="px-4 py-2 text-left text-white font-semibold">{{field.label}}</th>
+                                {% endif %}  
                             {% endfor %}
-                            <th class="px-3 py-2 text-left text-white font-semibold">IMC</th>
+                            <th class="px-4 py-2 text-left text-white font-semibold">IMC</th>
+
                         </tr>
                     </thead>
                     <tbody>
                         <tr class="border-b hover:bg-[#f7f7f7] transition duration-200">
+
+                            {% comment %}
+                                contenu des champs children, smoker, bmi
+                            {% endcomment %}
                             {% for field in info_form %}
-                            {% if field.name == "children" %}
-                            <td class="px-3 py-2 mx-auto">
-                                {% if field.errors %} {{ field.errors }} <br/> {% endif %}
-                                {{ field }}
-                            </td>
-                            {% elif field.name == "smoker" %}
-                            <td class="px-3 py-2">
-                                {% if field.errors %} {{ field.errors }} <br/> {% endif %}
-                                {{ field }}
-                            </td>
-                            {% endif %}
+                                {% if field.name == "children" %} 
+                                    <td class="px-4 py-2"> 
+                                        {% if field.errors %}  {{ field.errors }} <br/> {% endif %}
+                                        {{ field }}
+                                    </td>
+                                {% elif field.name == "smoker" %} 
+                                    <td class="px-4 py-2"> 
+                                        {% if field.errors %}  {{ field.errors }} <br/> {% endif %}
+                                        {{ field }}
+                                    </td>
+                                {% endif %}
                             {% endfor %}
-                            <td class="px-3 py-2">{{ bmi }}</td>
+                            <td class="px-4 py-2">{{ bmi }}</td>
+
                         </tr>
                     </tbody>
                 </table>
             </div>
 
             <!-- Partie "Prédiction" -->
-            <div class="w-60%] bg-white rounded-lg shadow-xl p-8">
+            <div class="bg-white rounded-lg shadow-xl p-8">
                 <h1 class="text-3xl font-semibold mb-6 text-[#1c2b36]">Estimation d'assurance santé</h1>
-                <p>Vous pouvez estimer le coût annuel de votre assurance 
-                    santé en fonction de vos informations personnelles.</p>
+                <p>Vous pouvez estimer le coût de votre assurance santé en fonction de vos informations personnelles.</p>
 
                 <div class="mt-6 border rounded-lg p-6 bg-white shadow-md text-center">
                     <p class="text-xl font-semibold text-[#1c2b36]">Prédiction : <strong class="text-[#00bfae]">{{ prediction }} $</strong></p>
@@ -118,4 +135,5 @@
     </form>
 </div>
 
+ 
 {% endblock %}
