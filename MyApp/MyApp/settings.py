@@ -17,6 +17,9 @@ from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# with debug = False
+# don't forget to run : python manage.py collectstatic
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -31,7 +34,8 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'default_secret_key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'True') == 'True' # convertir le string en bool
 
-ALLOWED_HOSTS = []
+# this line to run with debug = False:
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -57,6 +61,10 @@ INTERNAL_IPS = [ "127.0.0.1" ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+
+    #with debug = False
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -64,9 +72,22 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    #after all :
+    #after all (tailwindcss):
     "django_browser_reload.middleware.BrowserReloadMiddleware",
+
 ]
+
+#with debug = False
+#don't forget to run : python manage.py collectstatic
+STORAGES = {
+    # ...
+    "staticfiles": {
+        # compression without cache
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+        # compression with cache
+        #"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 ROOT_URLCONF = 'MyApp.urls'
 
